@@ -1,0 +1,12 @@
+stages:
+  - deploy
+variables:
+  GIT_CLONE_PATH: $CI_BUILDS_DIR/the-vaper-frontend
+deploy:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - the-vaper
+  script:
+    - cd ../../ && docker compose up -d --build the-vaper-frontend
