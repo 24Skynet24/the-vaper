@@ -1,14 +1,19 @@
 FROM node:16.16.0-alpine
 
-RUN mkdir -p /var/www/app
-WORKDIR /var/www/app
+RUN mkdir -p /var/www/apps/the-vaper-frontend
+WORKDIR /var/www/apps/the-vaper-frontend
 
 COPY package*.json ./
-RUN npm install
+
+RUN npm i -g nuxt
+
+RUN npm install -legacy-peer-deps
 
 COPY . .
 
 RUN npm run build
+
+RUN npm run generate
 
 EXPOSE 3000
 
