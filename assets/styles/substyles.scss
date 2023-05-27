@@ -1,0 +1,45 @@
+@use "sass:math";
+
+$black: rgba(11, 11, 11, 1); // #0B0B0B
+$green: rgba(0, 166, 137, 1); // #00A689
+$white: rgba(227, 229, 228, 1); // #E3E6E4
+$gray: rgba(115, 132, 128, 1); // #738480
+
+$hoverGreen: rgba(0, 90, 74, 1);
+
+$mobile: 320px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1920px;
+
+@function rem($n) {
+  @return math.div($n, 16) + rem;
+}
+
+@mixin respond-to($media, $mw: 0) {
+  @if $media == mobile {
+    @media (min-width: $mobile ) and (max-width: $tablet - $mw) { @content; }
+  }
+  @else if $media == tablet {
+    @media (min-width: $tablet) and (max-width: $laptop - $mw) { @content; }
+  }
+  @else if $media == laptop {
+    @media (min-width: $laptop) and (max-width: $desktop - $mw) { @content; }
+  }
+  @else if $media == desktop {
+    @media screen and (min-width: $desktop) { @content; }
+  }
+}
+
+@mixin style-font($fz: 18, $fw: 400, $lh: 140%, $ff: true){
+  font-size: rem($fz);
+  font-weight: $fw;
+  line-height: $lh;
+  @if ($ff == true) {
+    font-family: 'Helvetica', serif;
+  }
+  @else {
+    font-family: 'Avenir Next Cyr' ,serif;
+  }
+}
+

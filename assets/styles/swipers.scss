@@ -1,0 +1,21 @@
+.swiper-container {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.mobile-slider {
+  .mobile-slide {
+    height: rem(430) !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column;
+    gap: rem(20);
+
+    article {
+      width: 98%;
+      min-width: auto;
+      margin: 0 auto;
+    }
+  }
+}

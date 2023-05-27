@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  the-vaper-frontend:
+    container_name: the-vaper-frontend
+    build: .
+    restart: always
+    ports:
+      - '3000:3000'
+    command: 'npm run start'
