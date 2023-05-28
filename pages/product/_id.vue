@@ -17,7 +17,7 @@
               </div>
             </article>
             <div class="margins product-info-container">
-              <button class="block flex-center color-block" :class="{'green-border' : !colorState && Object.keys(activeColor).length}">
+              <button class="block flex-center color-block" :class="[{'green-border' : !colorState && Object.keys(activeColor).length}, {'active-color' : activeColor.title}]">
                 <span @click="colorsShow">{{ activeColor.title ?? 'Выбрать цвет' }}</span>
 
                 <transition name="drop">
@@ -783,7 +783,7 @@ button {
   justify-content: flex-start !important;
 
   span {
-    padding: 0;
+    padding: 0 rem(40);
     width: 100%;
     justify-content: center;
     align-items: center;
@@ -952,6 +952,11 @@ button {
 
 .green-border {
   border-color: $green;
+}
+
+.active-color span{
+  text-align: left;
+  justify-content: flex-start !important;
 }
 
 </style>
