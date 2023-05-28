@@ -425,6 +425,11 @@ export default {
 
   .swiper-container {
     padding: rem(20) 0;
+
+    .swiper-slide {
+      margin-right: 0 !important;
+      width: 25.1% !important;
+    }
   }
 
   .category-swiper-next, .category-swiper-prev {
