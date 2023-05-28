@@ -474,16 +474,11 @@ nav {
   }
 
   .menu {
-    width: 16px;
-    height: 10px;
+    width: rem(16);
+    height: rem(10);
     margin-right: rem(8);
     position: relative;
     transition: .25s;
-
-    @media screen and (min-width: $laptop) {
-      width: rem(16);
-      height: rem(10);
-    }
 
     span {
       position: absolute;
@@ -519,6 +514,10 @@ nav {
       &:first-child {
         transform: rotate(45deg);
         transform-origin: 15% 15%;
+
+        @media screen and (min-width: 1921px) {
+          transform-origin: 10% 15%;
+        }
       }
 
       &:nth-child(2) {
