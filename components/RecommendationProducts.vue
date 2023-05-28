@@ -13,6 +13,7 @@
           :space-between="pxToVw(getSpaceBetween)"
           @swiper="swiperInit($event)"
           @slideChange="slideChange($event)"
+          :class="[{'big-rec-slider' : itemsShow === 5}, {'small-rec-slider' : itemsShow === 4}]"
         >
           <swiper-slide v-for="(item, id) in recItems" :key="`recommendation${id}`">
             <vape-card :card-info="item" :show-add-info="false"/>
@@ -89,6 +90,16 @@ h3 {
     @include style-font(18, 750, 140%, false);
     margin-bottom: rem(20);
   }
+}
+
+.big-rec-slider .swiper-slide {
+  width: 19.3% !important;
+  padding-left: 5px;
+}
+
+.small-rec-slider .swiper-slide {
+  width: 24.1% !important;
+  padding-left: 8px;
 }
 
 .recommendation-slider {

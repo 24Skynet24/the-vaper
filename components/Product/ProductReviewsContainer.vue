@@ -88,6 +88,10 @@ export default {
   .swiper-container {
     padding: rem(12) 0;
   }
+
+  .swiper-slide {
+    padding-right: 9px;
+  }
 }
 
 .product-reviews-slider-arrow {
