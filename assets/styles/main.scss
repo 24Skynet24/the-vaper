@@ -1,5 +1,9 @@
-@import "../fonts/AvenirNextCyr/stylesheet.css";
-@import "../fonts/Helvetica/font.css";
+//@import "../fonts/AvenirNextCyr/stylesheet.css";
+@import url('https://fonts.cdnfonts.com/css/avenir-next-cyr');
+
+//@import "../fonts/Helvetica/font.css";
+@import url('https://fonts.cdnfonts.com/css/helvetica-neue-9');
+
 @import "substyles.scss";
 
 * {
