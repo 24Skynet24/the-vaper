@@ -1,6 +1,6 @@
 <template>
   <div class="page-section" :class="{'hide-line' : adaptiveStyle}">
-    <span class="page-line" :class="{'green-background' : hoverState}">
+    <div :class="{'green-background' : hoverState}" class="page-line">
       <div class="container parent">
         <nuxt-link
           class="page-link flex-center"
@@ -9,10 +9,10 @@
           @mouseleave.native="hoverState = false"
           :class="{'green-background' : hoverState}"
         >
-      <h2>{{ sectionInfo.title }}</h2>
-    </nuxt-link>
+          <h2>{{ sectionInfo.title }}</h2>
+        </nuxt-link>
       </div>
-    </span>
+    </div>
     <slot/>
   </div>
 </template>
@@ -126,7 +126,7 @@ export default {
     @media screen and (max-width: 768px) {
       width: 100%;
       top: 15%;
-      height: rem(7);
+      height: rem(10);
       left: 0;
     }
   }
@@ -146,7 +146,7 @@ export default {
     @media screen and (max-width: 768px) {
       width: 100%;
       top: 15%;
-      height: rem(7);
+      height: rem(10);
     }
   }
 
