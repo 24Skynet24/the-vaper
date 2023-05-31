@@ -79,9 +79,13 @@ export default {
   }
 }
 
+.swiper-container {
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px 4px rgba(69, 99, 86, 0.3);
+}
+
 @media screen and (max-width: 768px){
   .swiper-container {
-    border-radius: 10px;
     overflow: visible;
   }
 

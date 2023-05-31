@@ -77,6 +77,7 @@ article {
   @media screen and (max-width: 768px) {
     width: rem(146);
     height: rem(255);
+    border: none;
   }
 
   @media screen and (min-width: $laptop) {
