@@ -208,7 +208,14 @@ export default {
       this.$store.commit('setProfileAttribute', {key, value: !eventNeed ? event.target.value : this.getValidDate(event) })
     },
     async updateProfile () {
-      console.log(await this.$services.ProfileService.update(this.$store.state.profile));
+      try {
+        console.log(await this.$services.ProfileService.update(this.$store.state.profile));
+        this.$toast.success('Данные успешно сохранены').goAway(1500)
+      }
+      catch (e) {
+        this.$toast.error('Произошла ошибка').goAway(1500)
+        console.error('Error user update')
+      }
     },
     disabledDate(date) {
       let day = new Date().getDate()

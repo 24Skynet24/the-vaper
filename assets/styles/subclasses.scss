@@ -188,6 +188,18 @@
   }
 }
 
+.invalid {
+  border-color: rgba(214, 45, 48, 1);
+
+  &:focus {
+    border-color: rgba(214, 45, 48, 1);
+  }
+
+  &::placeholder {
+    color: rgba(214, 45, 48, 1);
+  }
+}
+
 .btn-green {
   width: 100%;
   height: rem(60);
@@ -479,7 +491,7 @@ form.sing-in-form {
   }
 
   .form-text {
-    margin: rem(25) 0 rem(35) auto;
+    margin: 0 0 rem(25) auto;
     cursor: pointer;
     color: #8A928F;
 
@@ -487,6 +499,12 @@ form.sing-in-form {
       margin: rem(15) 0 rem(20) auto;
     }
   }
+}
+
+.error-text {
+  color: rgba(214, 45, 48, 1);
+  font-size: rem(14) !important;
+  line-height: 140%;
 }
 
 .custom-checkbox {

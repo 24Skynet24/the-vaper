@@ -2,12 +2,14 @@
   <form v-if="phoneForm" @submit.prevent="phoneVerification" ref="regFormNumber" class="flex-column sing-in-form">
     <p>Подтверждение телефона</p>
     <input
-      type="tel" name="phone" class="input"
+      :class="{'invalid' : errMsg}" class="input"
+      name="phone" type="tel"
       placeholder="Телефон" required autofocus minlength="11"
       v-mask="'+7 (###) ###-##-##'"
       v-model="tel"
       @invalid="invalidityInput"
     >
+    <p v-if="errMsg" class="error-text">Такой номер уже используеться</p>
     <button type="submit" class="flex-center btn-green">
       Подтвердить
     </button>
@@ -39,6 +41,7 @@
 
 <script>
 import inputInteractions from "../../mixins/inputInteractions";
+
 export default {
   name: "RegistrationForm",
   mixins: [inputInteractions],
@@ -53,10 +56,25 @@ export default {
       checkbox: false,
       phoneForm: true,
       confirmation_code: '',
+
+      errMsg: false,
+      statusesCode: {
+        phone: null,
+        reg: null,
+      },
     }
+  },
+  watch: {
+    statusesCode: {
+      deep: true,
+      handler(e) {
+        this.errMsg = e.phone === 422
+      }
+    },
   },
   methods: {
     async phoneVerification() {
+      this.statusesCode.phone = null
       try {
         const formData = new FormData()
         formData.append('phone', this.phoneFilter(this.tel))
@@ -64,7 +82,10 @@ export default {
         await this.$axios.$post('/api/auth/verification-code', formData)
         this.phoneForm = false
       }
-      catch (e) { console.error('Phone Verification ' + e) }
+      catch (e) {
+        this.statusesCode.phone = e.response.status
+        console.error('Phone Verification ' + e)
+      }
     },
     async registration() {
       if (!this.checkbox || this.password !== this.repeated_password) return
@@ -85,7 +106,10 @@ export default {
         this.$store.commit('setGeneral', {payload: true, path: 'profileAuth'})
         await this.$router.push('/profile/user')
       }
-      catch (e) { console.error('Registration ' + e) }
+      catch (e) {
+        this.statusesCode.reg = e.response.status
+        console.error('Registration ' + e)
+      }
     },
   }
 }
