@@ -91,6 +91,7 @@ export default {
     { src: '@/plugins/multiRangeSlider.js', mode: 'client' },
     { src: '@/plugins/datepicker.js', mode: 'client' },
     { src: '@/plugins/swiperSlider.js', mode: 'client' },
+    { src: '@/plugins/clickOutside.js', mode: 'client' },
     '@/plugins/services.js'
   ],
 
