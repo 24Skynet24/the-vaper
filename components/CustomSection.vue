@@ -1,7 +1,7 @@
 <template>
   <div class="page-section" :class="{'hide-line' : adaptiveStyle}">
     <div :class="{'green-background' : hoverState}" class="page-line">
-      <div class="container parent">
+      <div class="container parent custom-parent">
         <nuxt-link
           class="page-link flex-center"
           exact no-prefetch :to="sectionInfo.url"
@@ -51,11 +51,12 @@ export default {
 
         let styleElem = document.head.appendChild(document.createElement("style"));
         styleElem.innerHTML = `
-        .page-link::before {
+        .custom-parent::before {
           width: ${beforeWidth}px !important;
         }
-        .page-link::after {
-          width: ${afterWidth - .4}px !important;
+        .custom-parent::after {
+          width: ${afterWidth}px !important;
+          left: ${linkWidth}px !important;
         }
         `
       }
@@ -65,6 +66,50 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.custom-parent {
+  position: relative;
+  &::before {
+    content: '';
+    display: block;
+    width: 50rem;
+    height: rem(15);
+    background: $white;
+    position: absolute;
+    left: 0;
+    top: rem(15);
+    transform: translateX(-100%);
+    border-radius: 0 10px 0 0;
+    z-index: 2;
+
+    @media screen and (max-width: 768px) {
+      width: 50%;
+      left: 30%;
+      transform: translateX(calc(-100% + 2px));
+      top: rem(10);
+    }
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: rem(4000);
+    height: rem(15);
+    background: $white;
+    position: absolute;
+    left: 0;
+    top: rem(15);
+    border-radius: 10px 0 0 0;
+    z-index: 2;
+
+    @media screen and (max-width: 768px) {
+      width: 50%;
+      left: 50%;
+      top: rem(10);
+      transform: translateX(calc(39% + 1.5px));
+    }
+  }
+}
 
 .page-background {
   background: $white;
@@ -108,46 +153,6 @@ export default {
     transform: translateX(-50%);
     padding: rem(20) rem(10) rem(10);
     min-width: rem(160);
-  }
-
-  &::before {
-    content: '';
-    display: block;
-    width: 50rem;
-    height: rem(10);
-    background: $white;
-    position: absolute;
-    left: 0;
-    top: calc(15% + 1px);
-    transform: translateX(-100%);
-    border-radius: 0 10px 0 0;
-    z-index: 2;
-
-    @media screen and (max-width: 768px) {
-      width: 100%;
-      top: 15%;
-      height: rem(10);
-      left: 0;
-    }
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    width: rem(4000);
-    height: rem(10);
-    background: $white;
-    position: absolute;
-    left: 100%;
-    top: calc(15% + 1px);
-    border-radius: 10px 0 0 0;
-    z-index: 2;
-
-    @media screen and (max-width: 768px) {
-      width: 100%;
-      top: 15%;
-      height: rem(10);
-    }
   }
 
   h2 {
