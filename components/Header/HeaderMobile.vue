@@ -89,7 +89,7 @@
       </div>
     </div>
     <transition name="drop">
-      <nav v-show="menuActive" class="container">
+      <nav v-show="menuActive" class="container" v-click-outside="closeMenu">
         <ul>
           <li class="padding">
             <svg class="navigator" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,6 +169,7 @@
         v-if="mobileCatalogActive"
         :mobile-catalog-menu="getCatalogData"
         @closeCatalog="mobileCatalogActive = false"
+        v-click-outside="closeCatalog"
       />
     </transition>
   </header>
@@ -210,6 +211,12 @@ export default {
       else this.openModal('signInModal')
 
       this.menuActive = false
+    },
+    closeMenu(){
+      if (this.menuActive) this.menuActive = false
+    },
+    closeCatalog(){
+      if (this.mobileCatalogActive) this.mobileCatalogActive = false
     },
   }
 }
