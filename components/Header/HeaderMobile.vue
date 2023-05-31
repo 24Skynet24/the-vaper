@@ -245,7 +245,7 @@ header {
   height: rem(44);
   position: relative;
   border: 1px solid $green;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: rem(10);
 
   input, svg {
