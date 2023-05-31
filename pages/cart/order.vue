@@ -140,13 +140,13 @@
           <div class="flex-column">
             <div class="order-item">
               <span>Жидкость Hangsen Salt Strawberry Watermelon 30 мл</span>
-              <span class="min">250 ₽ — 2 шт.</span>
-            </div>
-          </div>
-          <div class="flex-column">
-            <div class="order-item">
-              <span>Жидкость Hangsen Salt Strawberry Watermelon 30 мл</span>
-              <span class="min">250 ₽ — 2 шт.</span>
+              <span class="min">
+                250
+                <svg class="rub-very-small icon-gray" fill="none" height="11" viewBox="0 0 9 11" width="9" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.46904 11V0H4.64353C6.1182 0 7.21013 0.272176 7.91932 0.816527C8.63977 1.36088 9 2.15173 9 3.18908C9 3.88749 8.82552 4.48833 8.47655 4.9916C8.12758 5.48459 7.60976 5.86461 6.92308 6.13165C6.24765 6.39869 5.40901 6.53221 4.40713 6.53221H2.98874V11H1.46904ZM0 8.90476V7.90336H5.77486V8.90476H0ZM0 6.53221V5.36134H3.86679V6.53221H0ZM4.18762 5.36134C4.8743 5.36134 5.45403 5.29458 5.92683 5.16106C6.41088 5.02754 6.78236 4.80672 7.04128 4.4986C7.30019 4.19048 7.42964 3.76937 7.42964 3.23529C7.42964 2.53688 7.19325 2.01821 6.72045 1.67927C6.24765 1.34034 5.51032 1.17087 4.50844 1.17087H2.98874V5.36134H4.18762Z" fill="#0B0B0B"/>
+                </svg>
+                — 2 шт.
+              </span>
             </div>
           </div>
           <div class="gift-wrap flex-align-center">
@@ -173,7 +173,12 @@
           <div class="total flex-column">
             <div class="flex-align-center flex-between">
               <span><b>Итого</b></span>
-              <span><b>4995 ₽</b></span>
+              <span>
+                <b>4995</b>
+                 <svg class="rub-bold" width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                   <path d="M2.80872 17V17.15H2.95872H4.98499H5.13499V17V14.1024H8.69981H8.84981V13.9524V12.4958V12.3458H8.69981H5.13499V10.6514H6.15572H6.30572H6.87617C8.22526 10.6514 9.36499 10.4554 10.2897 10.0567C11.228 9.65856 11.9438 9.08815 12.4279 8.34216L12.4287 8.34097C12.9117 7.58102 13.15 6.67806 13.15 5.63866C13.15 4.09568 12.6572 2.89861 11.655 2.0723C10.6704 1.24812 9.17284 0.85 7.19137 0.85H2.95872H2.80872V1V8.64832H1H0.85V8.79832V10.5014V10.6514H1H2.80872V12.3458H1H0.85V12.4958V13.9524V14.1024H1H2.80872V17ZM5.13499 8.64832V2.85308H7.01126C8.33409 2.85308 9.27673 3.09818 9.86819 3.56074C10.4527 4.01786 10.7562 4.72254 10.7562 5.70588C10.7562 6.4618 10.5882 7.03819 10.2695 7.45188C9.9469 7.87075 9.48048 8.17642 8.85922 8.36336L8.85828 8.36365C8.24653 8.55212 7.48944 8.64832 6.58349 8.64832H6.30572H6.15572H5.13499Z" fill="#0B0B0B" stroke="#0B0B0B" stroke-width="0.3"/>
+                 </svg>
+              </span>
             </div>
             <span>+185 бонусов</span>
           </div>
@@ -328,6 +333,10 @@ export default {
   @media screen and (max-width: 768px) {
     padding-bottom: rem(32);
   }
+}
+
+.icon-gray path{
+  fill: rgba(138, 146, 143, 1);
 }
 
 main {
@@ -643,7 +652,7 @@ aside, .right-art {
   .total {
     padding: rem(20) 0 rem(10);
     border-top: 1px solid #B4B7B6;
-    margin-bottom: rem(30);
+    margin-bottom: rem(25);
 
     @media screen and (max-width: 768px) {
       padding: rem(10) 0 0 0;

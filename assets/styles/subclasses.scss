@@ -42,6 +42,51 @@
   -ms-user-select: none;
 }
 
+.rub {
+  width: auto;
+  height: rem(15);
+
+  @media screen and (max-width: 768px){
+    height: rem(14);
+  }
+}
+
+.rub-bold {
+  width: auto;
+  height: rem(15);
+
+  @media screen and (max-width: 768px){
+    height: rem(14);
+  }
+}
+
+.rub-very-bold {
+  width: auto;
+  height: rem(24);
+
+  @media screen and (max-width: 768px){
+    height: rem(17);
+  }
+}
+
+.rub-small {
+  width: auto;
+  height: rem(14);
+
+  @media screen and (max-width: 768px){
+    height: rem(13);
+  }
+}
+
+.rub-very-small {
+  width: auto;
+  height: rem(12);
+
+  @media screen and (max-width: 768px){
+    height: rem(11);
+  }
+}
+
 .parent {
   position: relative;
 }
