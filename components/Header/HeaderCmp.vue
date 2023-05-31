@@ -411,7 +411,6 @@ nav {
   }
 
   ul {
-    border: 1px solid #FFFFFF;
     border-radius: 0 0 20px 20px;
   }
 
@@ -424,7 +423,7 @@ nav {
 
     &:last-child {
       border-right: none;
-      border-radius: 0 0 20px;
+      border-radius: 0 0 20px 0;
     }
 
     &:first-child {
