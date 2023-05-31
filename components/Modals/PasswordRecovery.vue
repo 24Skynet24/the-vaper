@@ -9,12 +9,14 @@
         <h3>Восстановление пароля</h3>
         <p>Введите номер телефона, который вы указывали при регистрации</p>
         <input
-          type="tel" name="login" class="input"
+          type="tel" name="login"
+          class="input" :class="{'invalid' : errMsg}"
           placeholder="Телефон" autofocus required minlength="4"
           v-mask="'+7 (###) ###-##-##'"
           v-model="tel"
           @invalid="invalidityInput"
         >
+        <p class="error-text" v-if="errMsg">Неверно введен номер телефона</p>
         <button type="submit" class="btn-green">Получить код</button>
       </form>
     </div>
@@ -30,7 +32,9 @@ export default {
   mixins: [inputInteractions],
   data(){
     return {
-      tel: ''
+      tel: '',
+      errMsg: false,
+      statusCode: null,
     }
   },
 }
