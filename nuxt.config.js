@@ -73,6 +73,7 @@ export default {
     '@/assets/styles/subclasses.scss',
     '@/assets/styles/hoopers.scss',
     '@/assets/styles/swipers.scss',
+    '@/assets/styles/toastStyles.scss',
     'hooper/dist/hooper.css',
     'vue2-datepicker/index.css',
     'swiper/swiper-bundle.css',
@@ -111,6 +112,7 @@ export default {
     'cookie-universal-nuxt',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/auth-next',
+    '@nuxtjs/toast',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -124,4 +126,17 @@ export default {
       }
     }
   },
+
+  toast: {
+    position: 'top-right',
+    register: [ // Register custom toasts
+      {
+        name: 'my-error',
+        message: 'Oops...Something went wrong',
+        options: {
+          type: 'error'
+        }
+      }
+    ]
+  }
 }
