@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     pageLineNormal() {
-      if (this.windowWidth > 768) {
+      // if (this.windowWidth > 768) {
         const link = document.querySelector('.page-link')
 
         const linkWidth = link.getBoundingClientRect().width
@@ -58,8 +58,17 @@ export default {
           width: ${afterWidth}px !important;
           left: ${linkWidth}px !important;
         }
+        @media screen and (max-width: 768px) {
+          .page-line::after {
+            width: ${afterWidth}px !important;
+            left: ${linkWidth + beforeWidth}px !important;
+          }
+          .page-line::before {
+            width: ${beforeWidth - .4}px !important;
+          }
+        }
         `
-      }
+      // }
     },
   }
 }
@@ -83,10 +92,7 @@ export default {
     z-index: 2;
 
     @media screen and (max-width: 768px) {
-      width: 50%;
-      left: 30%;
-      transform: translateX(calc(-100% + 2px));
-      top: rem(10);
+      display: none;
     }
   }
 
@@ -103,10 +109,7 @@ export default {
     z-index: 2;
 
     @media screen and (max-width: 768px) {
-      width: 50%;
-      left: 50%;
-      top: rem(10);
-      transform: translateX(calc(39% + 1.5px));
+      display: none;
     }
   }
 }
@@ -135,6 +138,32 @@ export default {
 
   @media screen and (max-width: 768px){
     height: rem(15);
+
+    &::before {
+      content: '';
+      display: block;
+      width: 50%;
+      height: rem(15);
+      background: $white;
+      position: absolute;
+      left: 0;
+      top: rem(7);
+      border-radius: 0 10px 0 0;
+      z-index: 2;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      width: 50%;
+      height: rem(15);
+      background: $white;
+      position: absolute;
+      left: 0;
+      top: rem(7);
+      border-radius: 10px 0 0 0;
+      z-index: 2;
+    }
   }
 }
 
