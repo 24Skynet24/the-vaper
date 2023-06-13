@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     pageLineNormal() {
-      // if (this.windowWidth > 768) {
+      if (this.windowWidth > 768) {
         const link = document.querySelector('.page-link')
 
         const linkWidth = link.getBoundingClientRect().width
@@ -56,19 +56,10 @@ export default {
         }
         .custom-parent::after {
           width: ${afterWidth}px !important;
-          left: ${linkWidth}px !important;
-        }
-        @media screen and (max-width: 768px) {
-          .page-line::after {
-            width: ${afterWidth}px !important;
-            left: ${linkWidth + beforeWidth}px !important;
-          }
-          .page-line::before {
-            width: ${beforeWidth - .4}px !important;
-          }
+          left: calc(${beforeWidth + linkWidth}px - 6.5%) !important;
         }
         `
-      // }
+      }
     },
   }
 }
@@ -78,6 +69,7 @@ export default {
 
 .custom-parent {
   position: relative;
+
   &::before {
     content: '';
     display: block;
@@ -93,6 +85,9 @@ export default {
 
     @media screen and (max-width: 768px) {
       display: none;
+      width: 20%;
+      background: red;
+      left: 0;
     }
   }
 
@@ -110,6 +105,10 @@ export default {
 
     @media screen and (max-width: 768px) {
       display: none;
+      //top: rem(8);
+      background: red;
+      width: 20%;
+      left: 0;
     }
   }
 }
@@ -139,7 +138,7 @@ export default {
   @media screen and (max-width: 768px){
     height: rem(15);
 
-    &::before {
+    /*&::before {
       content: '';
       display: block;
       width: 50%;
@@ -161,9 +160,9 @@ export default {
       position: absolute;
       left: 0;
       top: rem(7);
-      border-radius: 10px 0 0 0;
+      border-radius: 8px 0 0 0;
       z-index: 2;
-    }
+    }*/
   }
 }
 
@@ -182,6 +181,32 @@ export default {
     transform: translateX(-50%);
     padding: rem(20) rem(10) rem(10);
     min-width: rem(160);
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: rem(15);
+      background: $white;
+      position: absolute;
+      right: 100%;
+      top: 14%;
+      border-radius: 0 10px 0 0;
+      z-index: 2;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: rem(15);
+      background: $white;
+      position: absolute;
+      left: 100%;
+      top: 14%;
+      border-radius: 10px 0 0 0;
+      z-index: 2;
+    }
   }
 
   h2 {
