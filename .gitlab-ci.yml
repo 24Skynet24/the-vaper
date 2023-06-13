@@ -2,6 +2,7 @@ stages:
   - deploy
 variables:
   GIT_CLONE_PATH: $CI_BUILDS_DIR/the-vaper-frontend
+  GIT_CLEAN_FLAGS: none
 deploy:
   stage: deploy
   only:
