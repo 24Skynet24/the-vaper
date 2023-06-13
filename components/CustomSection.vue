@@ -56,7 +56,7 @@ export default {
         }
         .custom-parent::after {
           width: ${afterWidth}px !important;
-          left: calc(${beforeWidth + linkWidth}px - 6.5%) !important;
+          left: ${linkWidth}px !important;
         }
         `
       }
