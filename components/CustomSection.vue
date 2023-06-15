@@ -85,9 +85,6 @@ export default {
 
     @media screen and (max-width: 768px) {
       display: none;
-      width: 20%;
-      background: red;
-      left: 0;
     }
   }
 
@@ -105,10 +102,6 @@ export default {
 
     @media screen and (max-width: 768px) {
       display: none;
-      //top: rem(8);
-      background: red;
-      width: 20%;
-      left: 0;
     }
   }
 }
@@ -136,33 +129,7 @@ export default {
   transition: .25s;
 
   @media screen and (max-width: 768px){
-    height: rem(15);
-
-    /*&::before {
-      content: '';
-      display: block;
-      width: 50%;
-      height: rem(15);
-      background: $white;
-      position: absolute;
-      left: 0;
-      top: rem(7);
-      border-radius: 0 10px 0 0;
-      z-index: 2;
-    }
-
-    &::after {
-      content: '';
-      display: block;
-      width: 50%;
-      height: rem(15);
-      background: $white;
-      position: absolute;
-      left: 0;
-      top: rem(7);
-      border-radius: 8px 0 0 0;
-      z-index: 2;
-    }*/
+    height: rem(25);
   }
 }
 
@@ -186,7 +153,7 @@ export default {
       content: '';
       display: block;
       width: 100%;
-      height: rem(15);
+      height: rem(24);
       background: $white;
       position: absolute;
       right: 100%;
@@ -199,13 +166,19 @@ export default {
       content: '';
       display: block;
       width: 100%;
-      height: rem(15);
+      height: rem(24);
       background: $white;
       position: absolute;
-      left: 100%;
+      left: 99.9%;
       top: 14%;
       border-radius: 10px 0 0 0;
       z-index: 2;
+    }
+  }
+
+  @media screen and (max-width: 376px){
+    &::after {
+      left: 100%;
     }
   }
 
