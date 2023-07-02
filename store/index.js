@@ -6,6 +6,7 @@ export const state = () => {
     passRecoveryModal: false,
     profile: null,
     profileAuth: false,
+    categories: [],
 
     comparisonSliderIndex: null,
   }
@@ -24,6 +25,7 @@ export const mutations = {
 
 export const getters = {
   getComparisonSlider: s => s.comparisonSliderIndex,
+  getCategories: s => s.categories
 }
 
 
