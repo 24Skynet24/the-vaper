@@ -257,7 +257,7 @@ export default {
   name: "Catalog",
   components: {MobileFilters, VaperLineCard, VapeCard, RecommendationProducts, CustomSection, BreadCrumbs},
   mixins: [clientData, productsMixin],
-  async asyncData({ store, $services, $toast, route }){
+  async asyncData({ store, $services, route, $toast }){
     try {
       const url = `/api/products/${route.params.slug}?limit=20&offset=${route.query.page - 1}`
       const res = await $services.CategoriesServices.getProductsCategory(url)
@@ -500,6 +500,11 @@ export default {
       await this.$router.push(this.$route.path + `?page=${index}`)
       this.pagePagination = index
 
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+
       try {
         const url = `/api/products/${this.$route.params.slug}?limit=20&offset=${index - 1}`
         const res = await this.$services.CategoriesServices.getProductsCategory(url)
@@ -508,7 +513,6 @@ export default {
 
         this.setProductsPagination(this.productsInfo)
         this.normalProducts(this.products)
-
       } catch (e) {
         this.$toast.error('Ошибка загрузки товаров!')
         console.error('Products ', e)
