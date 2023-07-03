@@ -87,6 +87,6 @@ ul, ol {
 }
 
 
-.caption {
-  display: none;
+.caption, .min-caption {
+  display: none !important;
 }
