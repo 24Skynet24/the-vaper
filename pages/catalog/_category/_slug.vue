@@ -162,7 +162,7 @@
           <div class="flex-column cards-wrap">
             <div class="flex-wrap" v-if="catalogWrap">
               <vape-card
-                v-for="(item, id) in recommendationProducts"
+                v-for="(item, id) in products"
                 :key="`catalog_product_${id}`"
                 :card-info="item"
               />
@@ -182,21 +182,51 @@
                />
             </div>
             <div class="pagination flex-center">
-              <svg class="pag-prev" width="34" height="60" viewBox="0 0 34 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg @click="changePage(+pagePagination - 1)" class="pag-prev" width="34" height="60" viewBox="0 0 34 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M33.8295 30.4912C34.0576 30.2205 34.0576 29.7807 33.8295 29.51L29.332 24.166L10.3708 1.63508C9.48956 0.588531 8.29495 0 7.04992 0H0.584652C0.0647894 0 -0.195742 0.748051 0.171643 1.18431L24.0097 29.51C24.2378 29.7807 24.2378 30.2205 24.0097 30.4912L0.171643 58.8157C-0.195742 59.2532 0.0647894 60 0.584652 60H7.04992C8.29615 60 9.49076 59.4115 10.372 58.3649L29.3332 35.834L33.8307 30.49L33.8295 30.4912Z" fill="#00A689"/>
               </svg>
 
               <div class="pag-wrap flex-align-center">
-                <div class="pag-wrap-item">
+                <div
+                  class="pag-wrap-item"
+                  @click="changePage(1)"
+                  v-if="5 < +pagePagination"
+                >
                   1
                 </div>
+                <div
+                  class="pag-wrap-item"
+                  v-if="5 < +pagePagination"
+                >
+                  ...
+                </div>
 
-                <div class="pag-wrap-item pag-wrap-item-active">
-                  2
+                <div
+                  class="pag-wrap-item"
+                  :class="{'pag-wrap-item-active' : +index === +pagePagination}"
+                  v-for="index in paginationTotal"
+                  @click="changePage(index)"
+                  v-if="+index <= +pagePagination + 4 && +index + 5 > +pagePagination"
+                >
+                  {{ index }}
+                </div>
+
+                <div
+                  class="pag-wrap-item"
+                  v-if="paginationTotal > +pagePagination + 4"
+                >
+                  ...
+                </div>
+                <div
+                  class="pag-wrap-item"
+                  @click="changePage(paginationTotal)"
+                  v-if="paginationTotal > +pagePagination + 4"
+                >
+                  {{ paginationTotal }}
                 </div>
               </div>
 
-              <svg class="pag-next" width="34" height="60" viewBox="0 0 34 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg @click="changePage(+pagePagination + 1)" class="pag-next" width="34" height="60" viewBox="0 0 34 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M33.8295 30.4912C34.0576 30.2205 34.0576 29.7807 33.8295 29.51L29.332 24.166L10.3708 1.63508C9.48956 0.588531 8.29495 0 7.04992 0H0.584652C0.0647894 0 -0.195742 0.748051 0.171643 1.18431L24.0097 29.51C24.2378 29.7807 24.2378 30.2205 24.0097 30.4912L0.171643 58.8157C-0.195742 59.2532 0.0647894 60 0.584652 60H7.04992C8.29615 60 9.49076 59.4115 10.372 58.3649L29.3332 35.834L33.8307 30.49L33.8295 30.4912Z" fill="#00A689"/>
               </svg>
             </div>
@@ -221,11 +251,22 @@ import VapeCard from "../../../components/VapeCard";
 import VaperLineCard from "../../../components/VaperLineCard";
 import clientData from "../../../mixins/clientData";
 import MobileFilters from "../../../components/Catalog/MobileFilters";
+import productsMixin from "../../../mixins/productsMixin";
 
 export default {
   name: "Catalog",
   components: {MobileFilters, VaperLineCard, VapeCard, RecommendationProducts, CustomSection, BreadCrumbs},
-  mixins: [clientData],
+  mixins: [clientData, productsMixin],
+  async asyncData({ store, $services, $toast, route }){
+    try {
+      const url = `/api/products/${route.params.slug}?limit=18&offset=${route.query.page - 1}`
+      const res = await $services.CategoriesServices.getProductsCategory(url)
+      store.commit('setGeneral', {path: 'catalogProducts', payload: res})
+    } catch (e) {
+      $toast.error('Ошибка загрузки товаров!')
+      console.error('Products ', e)
+    }
+  },
   data() {
     return {
       catalogInfo: {
@@ -395,7 +436,30 @@ export default {
 
       catalogWrap: true,
       mobileMenu: false,
+
+      products: [],
+      pagination: {
+        limit: 0,
+        offset: 0,
+        total: 0
+      },
+      pagePagination: 1,
     }
+  },
+  computed: {
+    productsInfo(){
+      return this.$store.getters.getCatalogProducts
+    },
+    paginationTotal() {
+      return Math.ceil(this.pagination.total / 18)
+    },
+  },
+  mounted() {
+    this.pagePagination = this.$route.query.page
+    this.setProductsPagination(this.productsInfo)
+    this.normalProducts(this.products)
+
+    console.log(this.products)
   },
   methods: {
     setSortItem(item) {
@@ -429,6 +493,31 @@ export default {
         if (value < +item.min) value = +item.minValue
         item.maxValue = value
       }
+    },
+
+    async changePage(index){
+      if (index < 1 || index > this.paginationTotal) return
+      await this.$router.push(this.$route.path + `?page=${index}`)
+      this.pagePagination = index
+
+      try {
+        const url = `/api/products/${this.$route.params.slug}?limit=18&offset=${index - 1}`
+        const res = await this.$services.CategoriesServices.getProductsCategory(url)
+
+        this.$store.commit('setGeneral', {path: 'catalogProducts', payload: res})
+
+        this.setProductsPagination(this.productsInfo)
+        this.normalProducts(this.products)
+
+      } catch (e) {
+        this.$toast.error('Ошибка загрузки товаров!')
+        console.error('Products ', e)
+      }
+    },
+
+    setProductsPagination(data){
+      this.products = data.data
+      this.pagination = data.meta
     },
   },
 }
@@ -553,6 +642,7 @@ li {
     svg {
       width: rem(23);
       height: rem(40);
+      cursor: pointer;
 
       @media screen and (max-width: 768px) {
         width: rem(23);

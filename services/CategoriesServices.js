@@ -3,4 +3,7 @@ export default ($axios) => ({
     const url = '/api/categories'
     return (await $axios.get(url)).data
   },
+  getProductsCategory: async (url) => {
+    return (await  $axios.get(url)).data
+  },
 })

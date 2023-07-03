@@ -8,6 +8,8 @@ export const state = () => {
     profileAuth: false,
     categories: [],
 
+    catalogProducts: {},
+
     comparisonSliderIndex: null,
   }
 }
@@ -25,7 +27,8 @@ export const mutations = {
 
 export const getters = {
   getComparisonSlider: s => s.comparisonSliderIndex,
-  getCategories: s => s.categories
+  getCategories: s => s.categories,
+  getCatalogProducts: s => s.catalogProducts,
 }
 
 
