@@ -13,16 +13,21 @@ export default {
     }
   },
   methods: {
-    normalCategories(category = []){
-      category.map(el => {
-        let checkCategory = this.categoryNames.filter(i => i.toLocaleLowerCase() === el.title.toLocaleLowerCase())[0]
-        checkCategory = checkCategory ? checkCategory.toLocaleLowerCase() : ''
-        let categoryIconId = this.categoryNames.indexOf(checkCategory)
-        categoryIconId = categoryIconId === -1 ? 0 : categoryIconId
-        el.icon = require(`@/assets/img/catalog/icon-${categoryIconId}.svg?raw`)
-        el.url = `/catalog/${el.slug}/${el.id}?page=1`
+    normalCategories(categories = [], childrenCheck = false){
+      categories.map(category => {
+        if (!childrenCheck) {
+          let checkCategory = this.categoryNames.filter(i => i.toLocaleLowerCase() === category.title.toLocaleLowerCase())[0]
+          checkCategory = checkCategory ? checkCategory.toLocaleLowerCase() : ''
+          let categoryIconId = this.categoryNames.indexOf(checkCategory)
+          categoryIconId = categoryIconId === -1 ? 0 : categoryIconId
+          category.icon = require(`@/assets/img/catalog/icon-${categoryIconId}.svg?raw`)
+        }
+        category.url = `/catalog/${category.slug}/${category.id}?page=1`
+
+        if (category.children.length)
+          this.normalCategories(category.children, true)
       })
-      return category
+      return categories
     },
     normalProducts(products = []) {
       return products.map(el => {

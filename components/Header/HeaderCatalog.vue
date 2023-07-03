@@ -2,49 +2,41 @@
   <article @mouseover="$emit('catalogMove')" @mouseleave="$emit('catalogLeave')">
     <ul class="list main-list flex-column">
       <li
-        v-for="(item, id) in mainList"
-        :key="`catalog_list_${id}`" :class="{'active': mainId === item.id}"
-        @mouseenter="mainMove(item)"
+        v-for="(item, id) in categories"
+        :key="`catalog_list_${id}`"
+        :class="{'active': mainListId === item.id}"
+        @mouseenter="linkMove(item, true)"
       >
-        <nuxt-link :to="item.url" class="flex-align-center catalog-link" exact no-prefetch>
+        <nuxt-link
+          :to="item.url"
+          class="flex-align-center catalog-link"
+          exact no-prefetch
+          @click.native="$emit('catalogLeave')"
+        >
           <div class="icon flex-center" v-html="item.icon"></div>
           <p>{{ item.title }}</p>
         </nuxt-link>
       </li>
     </ul>
-    <ul v-if="listType === 0" class="list main-list flex-column">
+    <ul class="list main-list flex-column">
       <li
-        v-for="(item, id) in titlesList"
-        :key="`title_${id}`" :class="{'active': subId === item.id}"
-        @mouseenter="linksList = item.children; subId = item.id"
+        v-for="(item, id) in subList"
+        :key="`title_${id}`"
+        :class="{'active': subListId === item.id}"
+        @mouseenter="linkMove(item, false)"
       >
-        <nuxt-link :to="item.url" class="title" exact no-prefetch>
+        <nuxt-link :to="item.url" class="title" exact no-prefetch  @click.native="$emit('catalogLeave')">
           {{ item.title }}
         </nuxt-link>
       </li>
     </ul>
-    <ul v-if="listType === 0" class="list main-list flex-column">
-      <li v-for="(item, id) in linksList" :key="`title_${id}`">
-        <nuxt-link :to="item.url" class="link" exact no-prefetch>
+    <ul class="list main-list flex-column" v-if="thirdList.length">
+      <li v-for="(item, id) in thirdList" :key="`title_${id}`">
+        <nuxt-link :to="item.url" class="link" exact no-prefetch @click.native="$emit('catalogLeave')">
           {{ item.title }}
         </nuxt-link>
       </li>
     </ul>
-
-    <div v-if="listType === 1" class="list sub-list flex-wrap">
-      <div v-for="(list, id) in allList" :key="`sbu_list_${id}`" class="flex-column list-item">
-        <nuxt-link :to="list.url" exact no-prefetch>
-          {{ list.title }}
-        </nuxt-link>
-        <ul class="flex-column">
-          <li v-for="(item, key) in list.children" :key="`sbu_list_item_${key}`">
-            <nuxt-link :to="item.url" exact no-prefetch>
-              {{ item.title }}
-            </nuxt-link>
-          </li>
-        </ul>
-      </div>
-    </div>
   </article>
 </template>
 
@@ -54,299 +46,37 @@ export default {
   name: 'HeaderCatalog',
   data() {
     return {
-      listType: null,
-      mainList: [
-        {
-          icon: require('@/assets/img/catalog/icon-0.svg?raw'),
-          url: '/catalog',
-          title: 'Одноразовые POD-системы',
-          type: 0,
-          id: 0,
-          children: [
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 12,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-              ]
-            },
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 1554,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                },
-              ]
-            },
-          ],
-        },
-        {
-          icon: require('@/assets/img/catalog/icon-1.svg?raw'),
-          url: '/catalog',
-          title: 'Одноразовые POD-системы',
-          type: 1,
-          id: 1,
-          children: [
-            {
-              title: 'Наборы',
-              url: '/catalog',
-              children: [
-                {
-                  title: 'Щелочные',
-                  url: '/'
-                },
-                {
-                  title: 'Солевые',
-                  url: '/'
-                },
-                {
-                  title: 'Предзаправленные наборы',
-                  url: '/'
-                },
-                {
-                  title: 'Расходники',
-                  url: '/'
-                },
-                {
-                  title: 'Жидкости',
-                  url: '/'
-                },
-                {
-                  title: 'Бокс-моды',
-                  url: '/'
-                },
-                {
-                  title: 'Атомайзеры',
-                  url: '/'
-                },
-              ]
-            },
-            {
-              title: 'Основы',
-              url: '/catalog',
-              children: [
-                {
-                  title: 'Eleaf',
-                  url: '/'
-                },
-                {
-                  title: 'GeekVape',
-                  url: '/'
-                },
-                {
-                  title: 'IJOY',
-                  url: '/'
-                },
-                {
-                  title: 'Voopoo',
-                  url: '/'
-                },
-              ]
-            },
-          ],
-        },
-        {
-          icon: require('@/assets/img/catalog/icon-3.svg?raw'),
-          url: '/catalog',
-          title: 'Жидкости для POD-системы',
-          type: 0,
-          id: 2,
-          children: [
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 12,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                }
-              ]
-            }
-          ],
-        },
-        {
-          icon: require('@/assets/img/catalog/icon-2.svg?raw'),
-          url: '/catalog',
-          title: 'POD-системы',
-          type: 0,
-          id: 3,
-          children: [
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 12,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                }
-              ]
-            }
-          ],
-        },
-        {
-          icon: require('@/assets/img/catalog/icon-4.svg?raw'),
-          url: '/catalog',
-          title: 'Расходники',
-          type: 0,
-          id: 4,
-          children: [
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 12,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                }
-              ]
-            }
-          ],
-        },
-        {
-          icon: require('@/assets/img/catalog/icon-5.svg?raw'),
-          url: '/catalog',
-          title: 'Жидкости',
-          type: 0,
-          id: 5,
-          children: [
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 12,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                }
-              ]
-            }
-          ],
-        },
-        {
-          icon: require('@/assets/img/catalog/icon-6.svg?raw'),
-          url: '/catalog',
-          title: 'Бокс-моды',
-          type: 0,
-          id: 6,
-          children: [
-            {
-              title: 'Щелочные',
-              url: '/catalog',
-              id: 12,
-              children: [
-                {
-                  title: 'Солевые',
-                  url: '/catalog',
-                }
-              ]
-            }
-          ],
-        },
-      ],
-      titlesList: [],
-      linksList: [],
-      allList: [],
-      mainId: null,
-      subId: null,
+      mainListId: null,
+      subListId: null,
+
+      subList: [],
+      thirdList: [],
     }
   },
+  computed: {
+    categories(){
+      return this.$store.getters.getCategories
+    },
+  },
   created() {
-    this.listType = this.mainList[0].type
-    this.titlesList = this.mainList[0].children
-    this.linksList = this.titlesList[0].children
-    this.mainId = this.mainList[0].id
-    this.subId = this.mainList[0].children[0].id
+    this.mainListId = this.categories[0].id
+  },
+  destroyed() {
+    this.mainListId = null
+    this.subListId = null
+    this.subList = []
+    this.thirdList = []
   },
   methods: {
-    mainMove(item){
-      this.listType = item.type
-      !item.type ? this.titlesList = item.children : this.allList = item.children
-      this.mainId = item.id
-      this.subId = item.children[0].id
-      this.titlesList = item.children
-      this.linksList = item.children[0].children
+    linkMove(listParams = {}, parent = false){
+      if (parent) {
+        this.subList = listParams.children
+        this.mainListId = listParams.id
+      }
+      else {
+        this.thirdList = listParams.children
+        this.subListId = listParams.id
+      }
     },
   },
 }
