@@ -151,6 +151,7 @@ import AgeVerification from "../components/Modals/AgeVerification";
 import CookiesModal from "../components/Modals/CookiesModal";
 import clientData from "../mixins/clientData";
 import MobileVaperSlider from "../components/MobileVaperSlider";
+import categoriesMixin from "../mixins/productsMixin";
 
 export default {
   name: "IndexPage",
@@ -160,7 +161,7 @@ export default {
     BannerCmp, CategoryCard,
     CustomSection, VapeCard, AgeVerification,
   },
-  mixins: [clientData],
+  mixins: [clientData, categoriesMixin],
   async asyncData({ store, $services, $toast }) {
     try {
       const res = await $services.CategoriesServices.getCategories()
@@ -389,9 +390,6 @@ export default {
       return this.$store.getters.getCategories
     },
   },
-  mounted() {
-    console.log(this.normalCategories(this.getCategories))
-  },
   methods: {
     swiperInit(e) {
       this.swiperData = e
@@ -402,26 +400,6 @@ export default {
     setSlide(state = true){
       if (state) this.swiperData.slideNext()
       else this.swiperData.slidePrev()
-    },
-    normalCategories(category = []){
-      const categoryNames = [
-        'одноразовые pod-системы',
-        'жидкости для pod-системы',
-        'pod-системы',
-        'расходники',
-        'жидкости',
-        'бокс-моды',
-        'атомайзеры',
-      ]
-      category.map(el => {
-        let checkCategory = categoryNames.filter(i => i.toLocaleLowerCase() === el.title.toLocaleLowerCase())[0]
-        checkCategory = checkCategory ? checkCategory.toLocaleLowerCase() : ''
-        let categoryIconId = categoryNames.indexOf(checkCategory)
-        categoryIconId = categoryIconId === -1 ? 0 : categoryIconId
-        el.icon = require(`@/assets/img/catalog/icon-${categoryIconId}.svg?raw`)
-        el.url = `/catalog?$categoryId=${el.id}&slug={el.slug}`
-      })
-      return category
     },
   },
 }
