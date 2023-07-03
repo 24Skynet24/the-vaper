@@ -259,7 +259,7 @@ export default {
   mixins: [clientData, productsMixin],
   async asyncData({ store, $services, $toast, route }){
     try {
-      const url = `/api/products/${route.params.slug}?limit=18&offset=${route.query.page - 1}`
+      const url = `/api/products/${route.params.slug}?limit=20&offset=${route.query.page - 1}`
       const res = await $services.CategoriesServices.getProductsCategory(url)
       store.commit('setGeneral', {path: 'catalogProducts', payload: res})
     } catch (e) {
@@ -501,7 +501,7 @@ export default {
       this.pagePagination = index
 
       try {
-        const url = `/api/products/${this.$route.params.slug}?limit=18&offset=${index - 1}`
+        const url = `/api/products/${this.$route.params.slug}?limit=20&offset=${index - 1}`
         const res = await this.$services.CategoriesServices.getProductsCategory(url)
 
         this.$store.commit('setGeneral', {path: 'catalogProducts', payload: res})
