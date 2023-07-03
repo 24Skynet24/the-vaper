@@ -170,13 +170,13 @@
             <div class="flex-wrap" v-else>
                 <vaper-line-card
                   v-show="windowWidth > 768"
-                  v-for="(item, id) in recommendationProducts"
+                  v-for="(item, id) in products"
                   :key="`catalog_line_card_${id}`"
                   :card-info="item"
                 />
                <vape-card
                  v-show="windowWidth <= 768"
-                 v-for="(item, id) in recommendationProducts"
+                 v-for="(item, id) in products"
                  :key="`catalog_product_${id}`"
                  :card-info="item"
                />
