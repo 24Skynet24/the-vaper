@@ -57,7 +57,7 @@ export default {
       listType: null,
       mainList: [
         {
-          icon: require('@/assets/img/catalog/icon.svg?raw'),
+          icon: require('@/assets/img/catalog/icon-0.svg?raw'),
           url: '/catalog',
           title: 'Одноразовые POD-системы',
           type: 0,
