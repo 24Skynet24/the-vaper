@@ -23,6 +23,7 @@ export default {
           category.icon = require(`@/assets/img/catalog/icon-${categoryIconId}.svg?raw`)
         }
         category.url = `/catalog/${category.slug}/${category.id}?page=1`
+        if (childrenCheck) category.active = false
 
         if (category.children.length)
           this.normalCategories(category.children, true)

@@ -167,7 +167,7 @@
     <transition name="drop">
       <header-mobile-catalog
         v-if="mobileCatalogActive"
-        :mobile-catalog-menu="getCatalogData"
+        :mobile-catalog-menu="categories"
         @closeCatalog="mobileCatalogActive = false"
         v-click-outside="closeCatalog"
       />
@@ -192,8 +192,8 @@ export default {
       return this.$store.state.profileAuth
     },
 
-    getCatalogData() {
-      return this.$store.state.mobileCatalog.mobileCatalog
+    categories() {
+      return this.$store.getters.getCategories
     },
   },
   methods: {
