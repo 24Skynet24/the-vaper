@@ -14,7 +14,7 @@
         v-for="(item, id) in mobileCatalogMenu"
         :key="`mobile_catalog_${id}`"
         class="catalog-item"
-        @click="changeMenu(item)"
+        @click="changeMenu(item, id)"
         v-show="childrenShow === false"
       >
         <nuxt-link :to="item.url" class="flex-align-center catalog-link" v-if="!item.children.length" @click.native="$emit('closeCatalog')">
@@ -48,7 +48,7 @@
             v-if="item.children.length"
             class="title"
             :class="{'active-title' : item.active}"
-            @click="item.active = !item.active"
+            @click="openChildren(item, id)"
           >
             <nuxt-link :to="item.url" @click.native="$emit('closeCatalog')">
               {{ item.title }}
@@ -66,7 +66,7 @@
             <span>{{ item.title }}</span>
           </nuxt-link>
 
-          <ul v-if="item.children.length && item.active">
+          <ul v-show="item.active">
             <li v-for="(el, i) in item.children" :key="`child_childrenCategory_${i}`">
               <nuxt-link :to="el.url" @click.native="$emit('closeCatalog')">
                 {{ el.title }}
@@ -88,21 +88,33 @@ export default {
   data() {
     return {
       childrenCategory: {},
-      categoryId: null,
       childrenShow: false,
+
+      mainId: null,
+      childrenId: null,
     }
   },
   methods: {
-    changeMenu(item){
+    changeMenu(item, id){
       if (!item.children.length) return
       this.childrenCategory = item
-      this.categoryId = item.id
+      this.mainId = id
       this.childrenShow = true
     },
     backMainMenu(){
       this.childrenCategory = {}
-      this.categoryId = null
       this.childrenShow = false
+      this.mainId = null
+      this.childrenId = null
+    },
+    openChildren(item, id) {
+      this.childrenId = id
+      this.$store.commit('setCategoriesParam', {
+        mainId: this.mainId,
+        childrenId: this.childrenId,
+        param: 'active',
+        value: !item.active
+      })
     },
   },
 }
@@ -119,7 +131,7 @@ article {
   border-radius: 10px;
   z-index: 5;
   padding: rem(10) 0;
-  max-height: rem(470);
+  max-height: rem(410);
   overflow-y: auto;
 }
 

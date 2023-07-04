@@ -21,7 +21,10 @@ export const mutations = {
   },
   setProfileAttribute(state, { key, value }) {
     state.profile[key] = value;
-  }
+  },
+  setCategoriesParam(state, {mainId, childrenId, param, value}){
+    state.categories[mainId].children[childrenId][param] = value
+  },
 }
 
 
