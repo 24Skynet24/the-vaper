@@ -458,8 +458,6 @@ export default {
     this.pagePagination = this.$route.query.page
     this.setProductsPagination(this.productsInfo)
     this.normalProducts(this.products)
-
-    console.log(this.products)
   },
   methods: {
     setSortItem(item) {
