@@ -6,10 +6,29 @@
           @slideChange="slideChange($event, true)"
           @swiper="swiperInit($event, true)"
         >
-          <swiper-slide v-for="(item, id) in slidesContent" :key="`product_1_slide_${id}`">
+          <swiper-slide v-for="(item, id) in slidesContent" :key="`product_1_slide_${id}`" v-show="slidesContent.length">
             <div class="img-wrap flex-center">
-              <img v-if="item.img" :src="item.img" alt="">
+              <img v-if="slidesContent.length" :src="item.path" alt="">
               <svg v-else fill="none" height="79" viewBox="0 0 78 79" width="78" xmlns="http://www.w3.org/2000/svg">
+                <path clip-rule="evenodd"
+                      d="M0.511963 0.567993L31.1379 78.5369H42.8385L77.4548 0.567993H63.6353L33.6815 68.6664L7.33744 0.567993H0.511963Z"
+                      fill="#8A928F"
+                      fill-rule="evenodd"/>
+                <path
+                  d="M43.0073 78.7968H30.9609L0.130737 0.308472H7.51541L33.6969 67.9864L63.4659 0.308472H77.8544L43.0073 78.7968ZM31.3149 78.2772H42.6696L77.0553 0.828047H63.805L33.6662 69.3466L7.15933 0.828047H0.893042L31.3149 78.2772Z"
+                  fill="#8A928F"/>
+                <path clip-rule="evenodd" d="M77.8702 48.3439L64.3372 78.8349H77.8702V48.3439Z" fill="#8A928F"
+                      fill-rule="evenodd"/>
+                <path clip-rule="evenodd" d="M58.7285 0.303589L33.9888 56.9946L23.606 30.1056L35.9661 0.303589H58.7285Z"
+                      fill="#8A928F" fill-rule="evenodd"/>
+                <path clip-rule="evenodd" d="M0.199707 16.2979L24.2385 78.8382H0.199707V16.2979Z" fill="#8A928F"
+                      fill-rule="evenodd"/>
+              </svg>
+            </div>
+          </swiper-slide>
+          <swiper-slide v-if="!slidesContent.length">
+            <div class="img-wrap flex-center">
+              <svg fill="none" height="79" viewBox="0 0 78 79" width="78" xmlns="http://www.w3.org/2000/svg">
                 <path clip-rule="evenodd"
                       d="M0.511963 0.567993L31.1379 78.5369H42.8385L77.4548 0.567993H63.6353L33.6815 68.6664L7.33744 0.567993H0.511963Z"
                       fill="#8A928F"
@@ -28,7 +47,7 @@
           </swiper-slide>
         </swiper-wrap>
       </div>
-      <div class="children-slider">
+      <div class="children-slider" v-show="slidesContent.length">
         <svg @click="setSlideIndex('', false, false)" class="children-slider-arrow prev" fill="none" height="40" viewBox="0 0 40 40" width="40"
              xmlns="http://www.w3.org/2000/svg">
           <path
@@ -49,7 +68,7 @@
                 class="children-slider-pag-item img-wrap flex-center"
                 @click="setSlideIndex(id)"
               >
-                <img v-if="item.img" :src="item.img" alt="">
+                <img v-if="item.path" :src="item.path" alt="">
                 <svg v-else fill="none" height="79" viewBox="0 0 78 79" width="78" xmlns="http://www.w3.org/2000/svg">
                   <path clip-rule="evenodd"
                         d="M0.511963 0.567993L31.1379 78.5369H42.8385L77.4548 0.567993H63.6353L33.6815 68.6664L7.33744 0.567993H0.511963Z"

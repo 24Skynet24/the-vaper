@@ -136,7 +136,7 @@ export default {
   methods: {
     ellipsisCheck(text) {
       if (!text) return false
-      return text.length === 30
+      return text.length === 55
     },
     changeState() {
       this.likeState = !this.likeState

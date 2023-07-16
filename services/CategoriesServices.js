@@ -6,4 +6,7 @@ export default ($axios) => ({
   getProductsCategory: async (url) => {
     return (await  $axios.get(url)).data
   },
+  getProductDetail: async (url) => {
+    return (await $axios.get(url)).data
+  },
 })

@@ -7,18 +7,18 @@
 
       <main>
         <div class="flex" v-if="windowWidth > 768">
-          <product-slider :slides-content="product.images"/>
+          <product-slider :slides-content="productDetail.images"/>
           <div class="product-info">
             <article class="block margins product-info-main">
-              <h1>{{ product.title }}</h1>
+              <h1>{{ productDetail.data[0].name }}</h1>
               <div class="flex-between">
                 <h3 class="price">
-                  {{ product.price.price }}
+                  {{ productDetail.data[0].sale_price }}
                   <svg class="rub-very-bold" width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.80872 17V17.15H2.95872H4.98499H5.13499V17V14.1024H8.69981H8.84981V13.9524V12.4958V12.3458H8.69981H5.13499V10.6514H6.15572H6.30572H6.87617C8.22526 10.6514 9.36499 10.4554 10.2897 10.0567C11.228 9.65856 11.9438 9.08815 12.4279 8.34216L12.4287 8.34097C12.9117 7.58102 13.15 6.67806 13.15 5.63866C13.15 4.09568 12.6572 2.89861 11.655 2.0723C10.6704 1.24812 9.17284 0.85 7.19137 0.85H2.95872H2.80872V1V8.64832H1H0.85V8.79832V10.5014V10.6514H1H2.80872V12.3458H1H0.85V12.4958V13.9524V14.1024H1H2.80872V17ZM5.13499 8.64832V2.85308H7.01126C8.33409 2.85308 9.27673 3.09818 9.86819 3.56074C10.4527 4.01786 10.7562 4.72254 10.7562 5.70588C10.7562 6.4618 10.5882 7.03819 10.2695 7.45188C9.9469 7.87075 9.48048 8.17642 8.85922 8.36336L8.85828 8.36365C8.24653 8.55212 7.48944 8.64832 6.58349 8.64832H6.30572H6.15572H5.13499Z" fill="#0B0B0B" stroke="#0B0B0B" stroke-width="0.3"/>
                   </svg>
                 </h3>
-                <stars-vaper :rating-stars="product.rating.star" :rating-reviews="product.rating.reviews" :fixed-two="true"/>
+                <stars-vaper :rating-stars="+productDetail.totalRating" :rating-reviews="+productDetail.totalRating" :fixed-two="false"/>
               </div>
             </article>
             <div class="margins product-info-container">
@@ -97,18 +97,18 @@
             <div class="margins product-info-container buttons">
               <button
                 class="block flex-align-center product-info-cart"
-                :class="{'product-info-cart-active' : product.quantity}"
+                :class="{'product-info-cart-active' : productDetail.quantity}"
                 @mousemove="cartBtn = true"
                 @mouseleave="cartBtn = false"
                 @click="quantityShow"
               >
-                <svg v-if="!product.quantity && !cartBtn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg v-if="!productDetail.quantity && !cartBtn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0.560547 13.9757L3.66057 23.4793C3.76187 23.7891 4.0529 24 4.38077 24H19.6267C19.9545 24 20.2456 23.7891 20.3469 23.4793L23.4469 13.9757H0.560547ZM11.7155 15.4206H13.8171L11.5331 20.562L10.5753 18.1233L11.7155 15.4206ZM8.42019 22.5533V16.6143L10.7429 22.5533H8.42019ZM15.5854 22.5533H14.3439L15.5854 19.8066V22.5533ZM12.362 22.5533H11.2715L8.42019 15.4206H9.05566L11.5092 21.6512L14.2997 15.4206H15.5872L12.3638 22.5533H12.362Z" fill="#00A689"/>
                   <path d="M1.86942 12.3107L1.89705 12.3327C2.19545 12.5583 2.62094 12.4978 2.8475 12.2007L11.42 0.905711C11.4918 0.810363 11.4734 0.676508 11.3776 0.604997L10.6427 0.0530807C10.5303 -0.0312651 10.3701 -0.0092583 10.2853 0.102592L1.7368 11.3664C1.51024 11.6635 1.57102 12.087 1.86942 12.3126V12.3107Z" fill="#00A689"/>
                   <path d="M22.0298 12.3089L22.0022 12.3309C21.7038 12.5564 21.2783 12.4959 21.0518 12.1989L12.4793 0.90388C12.4074 0.808532 12.4259 0.674677 12.5216 0.603166L13.2566 0.0512496C13.3689 -0.0330962 13.5292 -0.0110894 13.6139 0.10076L22.1625 11.3646C22.389 11.6616 22.3282 12.0852 22.0298 12.3107V12.3089Z" fill="#00A689"/>
                   <path d="M23.2479 11.3939H22.6106C22.7635 11.8248 22.6327 12.3217 22.2477 12.6114C21.7707 12.9708 21.0928 12.8755 20.7318 12.4006L19.9674 11.3939H3.93313L3.16688 12.4024C2.80586 12.8773 2.12802 12.9708 1.65095 12.6132C1.26414 12.3235 1.1352 11.8248 1.28808 11.3939H0.757599C0.243693 11.3939 -0.121016 11.8927 0.0373928 12.3786L0.306317 13.2055H23.6937L23.9626 12.3786C24.121 11.8927 23.7563 11.3939 23.2442 11.3939H23.2479Z" fill="#00A689"/>
                 </svg>
-                <svg v-if="product.quantity || cartBtn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg v-if="productDetail.quantity || cartBtn" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0.560547 13.9757L3.66057 23.4793C3.76187 23.7891 4.0529 24 4.38077 24H19.6267C19.9545 24 20.2456 23.7891 20.3469 23.4793L23.4469 13.9757H0.560547ZM11.7155 15.4206H13.8171L11.5331 20.562L10.5753 18.1233L11.7155 15.4206ZM8.42019 22.5533V16.6143L10.7429 22.5533H8.42019ZM15.5854 22.5533H14.3439L15.5854 19.8066V22.5533ZM12.362 22.5533H11.2715L8.42019 15.4206H9.05566L11.5092 21.6512L14.2997 15.4206H15.5872L12.3638 22.5533H12.362Z" fill="white"/>
                   <path d="M1.86942 12.3107L1.89705 12.3327C2.19545 12.5583 2.62094 12.4978 2.8475 12.2007L11.42 0.905711C11.4918 0.810363 11.4734 0.676508 11.3776 0.604997L10.6427 0.0530807C10.5303 -0.0312651 10.3701 -0.0092583 10.2853 0.102592L1.7368 11.3664C1.51024 11.6635 1.57102 12.087 1.86942 12.3126V12.3107Z" fill="white"/>
                   <path d="M22.0298 12.3089L22.0022 12.3309C21.7038 12.5564 21.2783 12.4959 21.0518 12.1989L12.4793 0.90388C12.4074 0.808532 12.4259 0.674677 12.5216 0.603166L13.2566 0.0512496C13.3689 -0.0330962 13.5292 -0.0110894 13.6139 0.10076L22.1625 11.3646C22.389 11.6616 22.3282 12.0852 22.0298 12.3107V12.3089Z" fill="white"/>
@@ -117,14 +117,14 @@
 
                 <span>В корзину</span>
 
-                <div class="counter" v-if="product.quantity">
+                <div class="counter" v-if="productDetail.quantity">
                   <span @click="setQuantity()" class="minus"></span>
-                  <span class="count">{{ product.quantity }}</span>
+                  <span class="count">{{ productDetail.quantity }}</span>
                   <span @click="setQuantity(true)">+</span>
                 </div>
               </button>
-              <button class="block product-info-btn flex-center" @click="product.like = !product.like">
-                <svg v-if="!product.like"  width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button class="block product-info-btn flex-center" @click="changeLike">
+                <svg v-if="!productDetail.data[0].like"  width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20.9686 1C23.7307 1 25.9875 2.71137 26.699 4.97127L26.8966 5.87837C27.1411 7.00057 26.9613 8.67219 26.2593 10.7056C25.5662 12.7133 24.3982 14.9733 22.7972 17.2241L22.7971 17.2242C19.9318 21.2533 16.546 24.0376 14.0004 24.9464C11.4549 24.0376 8.06905 21.2533 5.2038 17.2242L5.20374 17.2241C3.6027 14.9733 2.43396 12.7125 1.74047 10.7044C1.03801 8.67035 0.858634 6.99943 1.10404 5.87955L1.11246 5.84113L1.11784 5.80217C1.48543 3.13803 3.87557 1 7.03519 1C10.194 1 12.6936 3.23968 12.9742 5.97377L13.0663 6.87171H13.9689H14.0348H14.9367L15.0295 5.97463C15.3119 3.24553 17.8781 1 20.9686 1Z" stroke="#00A689" stroke-width="2"/>
                 </svg>
                 <svg v-else width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +151,7 @@
         </div>
         <product-mobile-container
           v-else
-          :product-info="product"
+          :product-info="productDetail"
           :buttons-state="buttonsMobileState"
           @setBtnState="buttonsMobileState = true"
         />
@@ -208,6 +208,27 @@ export default {
     RecommendationProducts, FeedbackCmp, StarsVaper, ProductSlider, CustomSection, BreadCrumbs
   },
   mixins: [clientData],
+  async asyncData({ store, $services, route, $toast }){
+    try {
+      const url = `/api/product/${route.params.id}`
+      const res = await $services.CategoriesServices.getProductDetail(url)
+      res.data[0].like = false
+      res.quantity = 0
+      store.commit('setGeneral', {payload: res, path: 'productDetail'})
+    } catch (e) {
+      $toast.error('Ошибка загрузки товара!')
+      console.error('Product ', e)
+    }
+
+    try {
+      const url = `/api/product/review/${route.params.id}`
+      const res = await $services.CategoriesServices.getProductDetail(url)
+      store.commit('setGeneral', {payload: res, path: 'productReviews'})
+    } catch (e) {
+      $toast.error('Ошибка загрузки Отзывов!')
+      console.error('Product ', e)
+    }
+  },
   data(){
     return {
       tabs: [
@@ -520,28 +541,46 @@ export default {
       },
     }
   },
+  computed: {
+    pageId() {
+      return this.$route.params.id
+    },
+    productDetail() {
+      return this.$store.state.productDetail
+    },
+    productReviews() {
+      return this.$store.state.productReviews
+    },
+  },
+  mounted() {
+    console.log(this.productDetail)
+    console.log(this.productReviews)
+  },
   methods: {
     quantityShow(){
-      if (!this.quantityState && !this.product.quantity) {
+      if (!this.quantityState && !this.productDetail.quantity) {
         this.quantityState = true
-        ++this.product.quantity
+        this.$store.commit('changeProductQuantity', this.productDetail.quantity + 1)
       }
-      else if (this.quantityState && !this.product.quantity) this.quantityState = false
+      else if (this.quantityState && !this.productDetail.quantity) this.quantityState = false
     },
     colorsShow(){
       if (!this.colorState) this.colorState = true
     },
     setQuantity(state = false){
-      if (state) ++this.product.quantity
+      if (state) this.$store.commit('changeProductQuantity', this.productDetail.quantity + 1)
       else {
-        --this.product.quantity
-        if (this.product.quantity < 0) this.quantityState = false
+        this.$store.commit('changeProductQuantity', this.productDetail.quantity - 1)
+        if (this.productDetail.quantity < 0) this.quantityState = false
       }
     },
     setColor(item) {
       this.colorState = false
       this.activeColor = item
-    }
+    },
+    changeLike(){
+      this.$store.commit('changeProductLike', !this.productDetail.data[0].like)
+    },
   }
 }
 </script>

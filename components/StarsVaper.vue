@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <span v-if="ratingReviews">{{ fixedTwo ? ratingReviews.toFixed(1) : ratingReviews }}</span>
+    <span v-if="ratingReviews !== null || ratingReviews !== undefined">{{ fixedTwo ? ratingReviews.toFixed(1) : ratingReviews }}</span>
   </div>
 </template>
 

@@ -10,6 +10,9 @@ export const state = () => {
 
     catalogProducts: {},
 
+    productDetail: [],
+    productReviews: [],
+
     comparisonSliderIndex: null,
   }
 }
@@ -24,6 +27,12 @@ export const mutations = {
   },
   setCategoriesParam(state, {mainId, childrenId, param, value}){
     state.categories[mainId].children[childrenId][param] = value
+  },
+  changeProductLike(state, payload) {
+    state.productDetail.data[0].like = payload
+  },
+  changeProductQuantity(state, payload) {
+    state.productDetail.quantity = payload
   },
 }
 

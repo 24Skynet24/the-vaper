@@ -102,14 +102,14 @@ export default {
     quantityShow(){
       if (!this.quantityState && !this.productInfo.quantity) {
         this.quantityState = true
-        ++this.productInfo.quantity
+        this.$store.commit('changeProductQuantity', this.productInfo.quantity + 1)
       }
       else if (this.quantityState && !this.productInfo.quantity) this.quantityState = false
     },
     setQuantity(state = false){
-      if (state) ++this.productInfo.quantity
+      if (state) this.$store.commit('changeProductQuantity', this.productInfo.quantity + 1)
       else {
-        --this.productInfo.quantity
+        this.$store.commit('changeProductQuantity', this.productInfo.quantity - 1)
         if (this.productInfo.quantity < 0) this.quantityState = false
       }
     },
