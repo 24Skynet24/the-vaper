@@ -22,8 +22,14 @@
               </div>
             </article>
             <div class="margins product-info-container">
-              <button class="block flex-center color-block" :class="[{'green-border' : !colorState && Object.keys(activeModifications).length}]">
-                <span @click="colorsShow">Выбрать вариант</span>
+              <button class="block flex-center color-block"
+                      :class="[
+                        {'green-border' : !colorState && Object.keys(activeModifications).length},
+                        {'color-disable' : !productDetail.modification.length}
+                        ]">
+                <span @click="colorsShow" class="ellipsis">
+                  {{ modificationsChar ?? 'Выбрать вариант' }}
+                </span>
 
                 <transition name="drop">
                   <div class="colors-list" v-if="colorState === true" @mouseleave="colorState = false">
@@ -345,6 +351,7 @@ export default {
       buttonsMobileState: false,
 
       activeModifications: {},
+      modificationsChar: 'Выбрать вариант',
 
       product: {
         title: 'GEEKVAPE B100 BOOST PRO MAX 21700 KIT 100W',
@@ -581,6 +588,7 @@ export default {
       else if (this.quantityState && !this.productDetail.quantity) this.quantityState = false
     },
     colorsShow(){
+      if (!this.productDetail.modification.length) return
       if (!this.colorState) this.colorState = true
     },
     setQuantity(state = false){
@@ -596,6 +604,12 @@ export default {
       $event.target.classList.toggle('green-color')
       this.activeModifications[modification] = item
       if (Object.keys(this.productDetail.modification).length === 1) this.colorState = false
+
+      let char = ''
+      for (let i in this.activeModifications) {
+        char += `${i}: ${this.activeModifications[i]}; `
+      }
+      this.modificationsChar = char
     },
     changeLike(){
       this.$store.commit('changeProductLike', !this.productDetail.data[0].like)
@@ -1034,6 +1048,11 @@ button {
 .active-color span{
   text-align: left;
   justify-content: flex-start !important;
+}
+
+.color-disable {
+  cursor: default;
+  background: rgba(255, 255, 255, .3);
 }
 
 </style>

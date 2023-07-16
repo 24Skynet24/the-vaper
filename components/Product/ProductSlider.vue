@@ -8,7 +8,7 @@
         >
           <swiper-slide v-for="(item, id) in slidesContent" :key="`product_1_slide_${id}`" v-show="slidesContent.length">
             <div class="img-wrap flex-center">
-              <img v-if="slidesContent.length" :src="item.path" alt="">
+              <img v-if="slidesContent.length" :src="item.path" alt="" style="height: auto;">
               <svg v-else fill="none" height="79" viewBox="0 0 78 79" width="78" xmlns="http://www.w3.org/2000/svg">
                 <path clip-rule="evenodd"
                       d="M0.511963 0.567993L31.1379 78.5369H42.8385L77.4548 0.567993H63.6353L33.6815 68.6664L7.33744 0.567993H0.511963Z"
@@ -230,7 +230,8 @@ export default {
 
 img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  max-height: 100%;
   user-select: none !important;
 }
 

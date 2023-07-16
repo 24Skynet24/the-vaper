@@ -4,7 +4,7 @@
     <div class="product-mobile-buttons flex-column">
       <button class="color no-selection" :class="{'green-border' : Object.keys(activeModifications).length && !colorState}">
         <span @click="colorState = true; mapState = false; $emit('setBtnState')">
-          Выбрать вариант
+          {{ modificationsChar }}
         </span>
 
         <div class="list" v-if="colorState && buttonsState">
@@ -95,6 +95,7 @@ export default {
       colorState: false,
       mapState: false,
       activeModifications: {},
+      modificationsChar: 'Выбрать вариант',
     }
   },
   watch: {
@@ -116,6 +117,12 @@ export default {
 
       this.activeModifications[id] = modification
       if (Object.keys(this.productInfo.modification).length === 1) this.colorState = false
+
+      let char = ''
+      for (let i in this.activeModifications) {
+        char += `${i}: ${this.activeModifications[i]}; `
+      }
+      this.modificationsChar = char
     },
     quantityShow(){
       if (!this.quantityState && !this.productInfo.quantity) {
