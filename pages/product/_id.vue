@@ -22,18 +22,22 @@
               </div>
             </article>
             <div class="margins product-info-container">
-              <button class="block flex-center color-block" :class="[{'green-border' : !colorState && Object.keys(activeColor).length}, {'active-color' : activeColor.title}]">
-                <span @click="colorsShow">{{ activeColor.title ?? 'Выбрать цвет' }}</span>
+              <button class="block flex-center color-block" :class="[{'green-border' : !colorState && Object.keys(activeModifications).length}]">
+                <span @click="colorsShow">Выбрать вариант</span>
 
                 <transition name="drop">
                   <div class="colors-list" v-if="colorState === true" @mouseleave="colorState = false">
-                    <span class="title">{{ activeColor.title ?? 'Выбрать цвет' }}</span>
-                    <ul class="flex-wrap">
-                      <li v-for="(item, id) in product.colors" :key="`product_color_${id}`" @click="setColor(item)">
-                        <div></div>
-                        <span>{{ item.title }}</span>
-                      </li>
-                    </ul>
+                    <div class="flex-column" v-for="(modification, id) in productDetail.modification">
+                      <span class="title">{{ id }}</span>
+                      <ul class="flex-wrap">
+                        <li v-for="(item, key) in modification" :key="`product_color_${key}`" @click="setModification(id, item, $event)">
+                          <div></div>
+                          <span :class="[{'green-color' : activeModifications[id] === item}]">
+                            {{ item }}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                     <svg @click="colorState = false" width="30" height="10" viewBox="0 0 30 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_1363_5909)">
                         <path d="M15.2454 0.0502908C15.11 -0.0167636 14.8902 -0.0167636 14.7548 0.0502908L12.083 1.37286L0.817398 6.94967C0.294102 7.20881 0 7.5602 0 7.92659L0 9.82783C0 9.98083 0.373783 10.0575 0.592233 9.94934L14.7548 2.93845C14.8902 2.87139 15.11 2.87139 15.2454 2.93845L29.4078 9.94934C29.6264 10.0575 30 9.98083 30 9.82783V7.92659C30 7.5602 29.7059 7.20881 29.1826 6.94967L17.9172 1.37286L15.2454 0.0502908Z" fill="#8B9390"/>
@@ -338,7 +342,7 @@ export default {
       mapState: false,
       buttonsMobileState: false,
 
-      activeColor: {},
+      activeModifications: {},
 
       product: {
         title: 'GEEKVAPE B100 BOOST PRO MAX 21700 KIT 100W',
@@ -582,9 +586,12 @@ export default {
         if (this.productDetail.quantity < 0) this.quantityState = false
       }
     },
-    setColor(item) {
-      this.colorState = false
-      this.activeColor = item
+    setModification(modification, item, $event) {
+      const parent = $event.target.parentNode.parentNode
+      Array.from(parent.children).map(el => {el.children[1].classList.remove('green-color')})
+      $event.target.classList.toggle('green-color')
+      this.activeModifications[modification] = item
+      if (Object.keys(this.productDetail.modification).length === 1) this.colorState = false
     },
     changeLike(){
       this.$store.commit('changeProductLike', !this.productDetail.data[0].like)
@@ -837,7 +844,7 @@ button {
 }
 
 .color-block {
-  width: rem(211);
+  flex: 1;
   position: relative;
   padding: 0;
   border: 1px solid #FFFFFF;
@@ -860,10 +867,10 @@ button {
     top: 0;
     z-index: 4;
     background: #FFFFFF;
-    width: rem(460);
+    width: 220%;
     box-shadow: 4px 4px 8px 4px rgba(69, 99, 86, 0.3);
     border-radius: 8px;
-    padding: rem(15) 0 rem(17) rem(40);
+    padding: rem(15) 0 rem(17) rem(20);
     cursor: default;
 
     span {
@@ -1014,6 +1021,10 @@ button {
 
 .green-border {
   border-color: $green;
+}
+
+.green-color {
+  color: $green !important;
 }
 
 .active-color span{

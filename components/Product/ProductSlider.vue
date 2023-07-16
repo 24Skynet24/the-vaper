@@ -193,6 +193,10 @@ export default {
     cursor: pointer;
     border-radius: 10px;
     border: 2px solid #FFFFFF;
+
+    img {
+      border-radius: 10px;
+    }
   }
 
   .green-border {

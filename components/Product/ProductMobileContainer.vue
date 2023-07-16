@@ -2,19 +2,23 @@
   <div class="product-mobile flex-column" @click.stop="$emit('close')">
     <product-mobile :product-info="productInfo"/>
     <div class="product-mobile-buttons flex-column">
-      <button class="color no-selection" :class="{'green-border' : Object.keys(activeColor).length && !colorState}">
-        <span @click="colorState = true; mapState = false; $emit('setBtnState')">{{ activeColor.title || 'Выбрать цвет' }}</span>
+      <button class="color no-selection" :class="{'green-border' : Object.keys(activeModifications).length && !colorState}">
+        <span @click="colorState = true; mapState = false; $emit('setBtnState')">
+          Выбрать вариант
+        </span>
 
         <div class="list" v-if="colorState && buttonsState">
-          <div class="title">
-            <span>{{ activeColor.title || 'Выбрать цвет' }}</span>
+          <div class="flex-column" v-for="(modification, id) in productInfo.modification" :key="`modification_mobile_${id}`">
+            <div class="title">
+              <span>{{ id }}</span>
+            </div>
+            <ul>
+              <li v-for="(item, key) in modification" :key="`product_mobile_color_${key}`" @click="changeModification(item, id, $event)">
+                <div class="green"></div>
+                <span :class="{'color-green' : item === activeModifications[id]}">{{ item }}</span>
+              </li>
+            </ul>
           </div>
-          <ul>
-            <li v-for="(item, id) in productInfo.colors" :key="`product_mobile_color_${id}`" @click="activeColor = item; colorState = false">
-              <div class="green"></div>
-              <span>{{ item.title }}</span>
-            </li>
-          </ul>
         </div>
       </button>
 
@@ -90,7 +94,7 @@ export default {
       quantityState: false,
       colorState: false,
       mapState: false,
-      activeColor: {},
+      activeModifications: {},
     }
   },
   watch: {
@@ -98,7 +102,21 @@ export default {
       if (!e) this.mapState = false
     }
   },
+  mounted() {
+    console.log(this.productInfo)
+  },
   methods: {
+    changeModification(modification, id, $event){
+      let parent = $event.target.parentNode
+      if (parent.children.length === 2) parent = parent.parentNode
+      Array.from(parent.children).map(el => {el.children[1].classList.remove('color-green')})
+
+      if ($event.target.children.length === 0) $event.target.classList.toggle('color-green')
+      else $event.target.children[1].classList.toggle('color-green')
+
+      this.activeModifications[id] = modification
+      if (Object.keys(this.productInfo.modification).length === 1) this.colorState = false
+    },
     quantityShow(){
       if (!this.quantityState && !this.productInfo.quantity) {
         this.quantityState = true
@@ -201,6 +219,9 @@ button {
   border-radius: 8px;
   z-index: 5;
   padding: rem(10) rem(34) rem(20);
+  gap: rem(25);
+  display: flex;
+  flex-direction: column;
 
   span {
     @include style-font(20);
@@ -301,6 +322,10 @@ button {
     padding-left: rem(18);
     padding-right: 0;
   }
+}
+
+.color-green {
+  color: $green !important;
 }
 
 
