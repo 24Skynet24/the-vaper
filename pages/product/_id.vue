@@ -168,6 +168,7 @@
             :class="[
               {'product-tabs-active' : item.id === activeTab},
               {'product-tabs-disable' : item.id === 4 && !productReviews.length},
+              {'product-tabs-disable' : item.id === 3 && !productDetail.set.length},
               {'product-tabs-disable' : item.id === 2 && !productDetail.сharacteristics.length},
               {'product-tabs-disable' : item.id === 1 && !productDetail.data[0].description}
               ]"
@@ -180,7 +181,7 @@
         <div class="product-tabs-container">
           <product-description :description-text="productDetail.data[0].description" v-if="activeTab === 1"/>
           <product-specifications :product-specifications="productDetail.сharacteristics"  v-if="activeTab === 2"/>
-          <product-equipment :product-equipment="product.equipment" v-if="activeTab === 3"/>
+          <product-equipment :product-equipment="productDetail.set" v-if="activeTab === 3"/>
           <product-reviews-container :product-reviews="productReviews.data" v-if="activeTab === 4"/>
         </div>
       </section>
@@ -567,6 +568,7 @@ export default {
   methods: {
     changeTab(tabId){
       if (tabId === 4 && !this.productReviews.length) return
+      if (tabId === 3 && !this.productDetail.set.length) return
       if (tabId === 2 && !this.productDetail.сharacteristics.length) return
       if (tabId === 1 && !this.productDetail.data[0].description) return
       this.activeTab = tabId
