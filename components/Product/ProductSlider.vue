@@ -121,6 +121,9 @@ export default {
       childrenSlider: null,
     }
   },
+  mounted() {
+    console.log(this.slidesContent, 'sadasd')
+  },
   methods: {
     swiperInit(e, state = true) {
       state ? this.parentSlider = e : this.childrenSlider = e

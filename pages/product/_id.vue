@@ -172,7 +172,7 @@
           <product-description :description-text="product.description" v-if="activeTab === 1"/>
           <product-specifications :product-specifications="product.specifications"  v-if="activeTab === 2"/>
           <product-equipment :product-equipment="product.equipment" v-if="activeTab === 3"/>
-          <product-reviews-container :product-reviews="product.reviews" v-if="activeTab === 4"/>
+          <product-reviews-container :product-reviews="productReviews.data" v-if="activeTab === 4"/>
         </div>
       </section>
 
@@ -221,7 +221,7 @@ export default {
     }
 
     try {
-      const url = `/api/product/review/${route.params.id}`
+      const url = `/api/product/review/${route.params.id}?limit=10&offset=0`
       const res = await $services.CategoriesServices.getProductDetail(url)
       store.commit('setGeneral', {payload: res, path: 'productReviews'})
     } catch (e) {

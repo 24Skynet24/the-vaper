@@ -101,9 +101,6 @@ export default {
       prMobileSlider: null,
     }
   },
-  mounted() {
-    console.log(this.productInfo);
-  },
   methods: {
     swiperInit(e) {
       this.prMobileSlider = e

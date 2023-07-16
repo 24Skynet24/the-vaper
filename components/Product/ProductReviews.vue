@@ -2,23 +2,23 @@
   <article class="product-block flex-column">
     <header class="flex-between">
       <stars-vaper :rating-stars="productReview.rating"/>
-      <span class="date">{{ normalDate(productReview.date) }}</span>
+<!--      <span class="date">{{ normalDate(productReview.date) }}</span>-->
     </header>
-    <div class="flex-column" v-if="productReview.pluses">
+    <div class="flex-column" v-if="productReview.advantages">
       <h6>
         <b>
           Плюсы
         </b>
       </h6>
-      <p>{{ productReview.pluses || '-' }}</p>
+      <p>{{ productReview.advantages || '-' }}</p>
     </div>
-    <div class="flex-column" v-if="productReview.minuses">
+    <div class="flex-column" v-if="productReview.disadvantages">
       <h6>
         <b>
           Минусы
         </b>
       </h6>
-      <p>{{ productReview.minuses || '-' }}</p>
+      <p>{{ productReview.disadvantages || '-' }}</p>
     </div>
     <div class="flex-column" v-if="productReview.comment">
       <h6>
@@ -28,7 +28,7 @@
       </h6>
       <p>{{ productReview.comment || '-' }}</p>
     </div>
-    <span class="name">{{ productReview.name }}</span>
+    <span class="name">{{ productReview.first_name + ' ' + productReview.last_name }}</span>
   </article>
 </template>
 
