@@ -161,8 +161,12 @@
         <ul class="flex-align-center">
           <li
             v-for="item in tabs" :key="`tab_product_${item.id}`"
-            :class="[{'product-tabs-active' : item.id === activeTab}]"
-            @click="activeTab = item.id"
+            :class="[
+              {'product-tabs-active' : item.id === activeTab},
+              {'product-tabs-disable' : item.id === 4 && !productReviews.length},
+              {'product-tabs-disable' : item.id === 2 && !productDetail.сharacteristics.length}
+              ]"
+            @click="changeTab(item.id)"
           >
             {{ item.name }}
           </li>
@@ -170,7 +174,7 @@
 
         <div class="product-tabs-container">
           <product-description :description-text="product.description" v-if="activeTab === 1"/>
-          <product-specifications :product-specifications="product.specifications"  v-if="activeTab === 2"/>
+          <product-specifications :product-specifications="productDetail.сharacteristics"  v-if="activeTab === 2"/>
           <product-equipment :product-equipment="product.equipment" v-if="activeTab === 3"/>
           <product-reviews-container :product-reviews="productReviews.data" v-if="activeTab === 4"/>
         </div>
@@ -554,9 +558,13 @@ export default {
   },
   mounted() {
     console.log(this.productDetail)
-    console.log(this.productReviews)
   },
   methods: {
+    changeTab(tabId){
+      if (tabId === 4 && !this.productReviews.length) return
+      if (tabId === 2 && !this.productDetail.сharacteristics.length) return
+      this.activeTab = tabId
+    },
     quantityShow(){
       if (!this.quantityState && !this.productDetail.quantity) {
         this.quantityState = true
@@ -811,6 +819,16 @@ button {
   & &-active {
     background: $green;
     color: #FFFFFF;
+  }
+
+  & &-disable {
+    background: rgba(255, 255, 255, .4);
+    cursor: default;
+
+    &:hover {
+      color: rgba(138, 146, 143, 1);
+      background: rgba(255, 255, 255, .4);
+    }
   }
 
   &-container {
