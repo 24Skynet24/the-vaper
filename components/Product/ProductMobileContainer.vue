@@ -3,7 +3,7 @@
     <product-mobile :product-info="productInfo"/>
     <div class="product-mobile-buttons flex-column">
       <button class="color no-selection" :class="{'green-border' : Object.keys(activeModifications).length && !colorState}">
-        <span @click="colorState = true; mapState = false; $emit('setBtnState')">
+        <span class="ellipsis" @click="colorState = true; mapState = false; $emit('setBtnState')">
           {{ modificationsChar }}
         </span>
 
