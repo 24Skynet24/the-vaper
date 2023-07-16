@@ -278,7 +278,7 @@ button {
   }
 
   .list {
-    padding: rem(15) 0 0;
+    padding: rem(15) 0;
 
     ul {
       gap: rem(15);
