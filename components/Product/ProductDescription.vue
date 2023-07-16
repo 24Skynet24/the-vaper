@@ -1,12 +1,19 @@
 <template>
   <article class="product-block">
-    <div class="flex-column" v-for="(item, id) in descriptionText" :key="`descriptionText_${id}`">
+<!--    <div class="flex-column" v-for="(item, id) in descriptionText" :key="`descriptionText_${id}`">-->
+<!--      <h6>-->
+<!--        <b>-->
+<!--          {{ item.title }}-->
+<!--        </b>-->
+<!--      </h6>-->
+<!--      <p>{{ item.text }}</p>-->
+<!--    </div>-->
+
+    <div class="flex-column">
       <h6>
-        <b>
-          {{ item.title }}
-        </b>
+        <b>Описание</b>
       </h6>
-      <p>{{ item.text }}</p>
+      <p>{{ descriptionText }}</p>
     </div>
   </article>
 </template>
@@ -15,7 +22,7 @@
 export default {
   name: "ProductDescription",
   props: {
-    descriptionText: { type: Array, required: true },
+    descriptionText: { required: true },
   }
 }
 </script>
