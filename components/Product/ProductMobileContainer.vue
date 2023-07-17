@@ -2,13 +2,12 @@
   <div class="product-mobile flex-column" @click.stop="$emit('close')">
     <product-mobile :product-info="productInfo"/>
     <div class="product-mobile-buttons flex-column">
-      <button class="color no-selection"
-              :class="[
-                {'green-border' : Object.keys(activeModifications).length && !colorState},
-                {'color-disable' : !Object.keys(this.productInfo.modification).length}
-                ]"
+      <button
+        class="color no-selection"
+        :class="[{'green-border' : Object.keys(activeModifications).length && !colorState}]"
+        v-if="Object.keys(productInfo.modification).length"
       >
-        <span class="ellipsis" @click="openModifications; $emit('setBtnState')">
+        <span class="ellipsis" @click="openModifications">
           {{ modificationsChar }}
         </span>
 
@@ -110,6 +109,7 @@ export default {
   },
   methods: {
     openModifications(){
+      this.$emit('setBtnState')
       if (!Object.keys(this.productInfo.modification).length) return
       this.colorState = true
       this.mapState = false

@@ -22,11 +22,11 @@
               </div>
             </article>
             <div class="margins product-info-container">
-              <button class="block flex-center color-block"
-                      :class="[
-                        {'green-border' : !colorState && Object.keys(activeModifications).length},
-                        {'color-disable' : !productDetail.modification.length}
-                        ]">
+              <button
+                class="block flex-center color-block"
+                :class="[{'green-border' : !colorState && Object.keys(activeModifications).length}]"
+                v-if="Object.keys(productDetail.modification).length"
+              >
                 <span @click="colorsShow" class="ellipsis">
                   {{ modificationsChar ?? 'Выбрать вариант' }}
                 </span>
@@ -588,7 +588,7 @@ export default {
       else if (this.quantityState && !this.productDetail.quantity) this.quantityState = false
     },
     colorsShow(){
-      if (!this.productDetail.modification.length) return
+      if (!Object.keys(this.productDetail.modification).length) return
       if (!this.colorState) this.colorState = true
     },
     setQuantity(state = false){
@@ -867,14 +867,12 @@ button {
   padding: 0;
   border: 1px solid #FFFFFF;
   transition: .25s;
+  max-width: 42%;
   justify-content: flex-start !important;
 
   span {
-    padding: 0 rem(40);
+    padding: rem(15) rem(40);
     width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
     height: rem(60);
     text-align: left;
   }
