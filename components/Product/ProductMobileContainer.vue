@@ -2,8 +2,13 @@
   <div class="product-mobile flex-column" @click.stop="$emit('close')">
     <product-mobile :product-info="productInfo"/>
     <div class="product-mobile-buttons flex-column">
-      <button class="color no-selection" :class="{'green-border' : Object.keys(activeModifications).length && !colorState}">
-        <span class="ellipsis" @click="colorState = true; mapState = false; $emit('setBtnState')">
+      <button class="color no-selection"
+              :class="[
+                {'green-border' : Object.keys(activeModifications).length && !colorState},
+                {'color-disable' : !Object.keys(this.productInfo.modification).length}
+                ]"
+      >
+        <span class="ellipsis" @click="openModifications; $emit('setBtnState')">
           {{ modificationsChar }}
         </span>
 
@@ -103,10 +108,12 @@ export default {
       if (!e) this.mapState = false
     }
   },
-  mounted() {
-    console.log(this.productInfo)
-  },
   methods: {
+    openModifications(){
+      if (!Object.keys(this.productInfo.modification).length) return
+      this.colorState = true
+      this.mapState = false
+    },
     changeModification(modification, id, $event){
       let parent = $event.target.parentNode
       if (parent.children.length === 2) parent = parent.parentNode
@@ -333,6 +340,11 @@ button {
 
 .color-green {
   color: $green !important;
+}
+
+.color-disable {
+  cursor: default;
+  background: rgba(255, 255, 255, .3);
 }
 
 
