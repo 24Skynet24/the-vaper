@@ -1,5 +1,5 @@
 <template>
-  <div class="product-slider">
+  <div class="product-slider" :class="{'product-slider-unchildren' : !slidesContent.length}">
     <client-only>
       <div class="parent-slider">
         <swiper-wrap
@@ -160,6 +160,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.product-slider-unchildren {
+  height: rem(650);
 }
 
 .parent-slider {
