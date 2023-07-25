@@ -263,7 +263,7 @@ export default {
       const res = await $services.CategoriesServices.getProductsCategory(url)
       store.commit('setGeneral', {path: 'catalogProducts', payload: res})
     } catch (e) {
-      $toast.error('Ошибка загрузки товаров!')
+      $toast.error('Ошибка загрузки товаров!').goAway(2000)
       console.error('Products ', e)
     }
   },
@@ -512,7 +512,7 @@ export default {
         this.setProductsPagination(this.productsInfo)
         this.normalProducts(this.products)
       } catch (e) {
-        this.$toast.error('Ошибка загрузки товаров!')
+        this.$toast.error('Ошибка загрузки товаров!').goAway(2000)
         console.error('Products ', e)
       }
     },

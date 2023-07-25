@@ -167,7 +167,7 @@ export default {
       const res = await $services.CategoriesServices.getCategories()
       store.commit('setGeneral', {path: 'categories', payload: res})
     } catch (e) {
-      $toast.error('Ошибка загрузки категорий!')
+      $toast.error('Ошибка загрузки категорий!').goAway(2000)
       console.error('Categories ', e)
     }
   },
