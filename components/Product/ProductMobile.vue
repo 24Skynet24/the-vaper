@@ -60,11 +60,11 @@
         </swiper-wrap>
       </client-only>
       <div class="icons">
-        <div class="like">
-          <svg v-if="!productInfo.data[0].like" @click="changeLike" width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="like" @click="changeLike">
+          <svg v-if="!productInfo.data[0].like" width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20.9686 1C23.7307 1 25.9875 2.71137 26.699 4.97127L26.8966 5.87837C27.1411 7.00057 26.9613 8.67219 26.2593 10.7056C25.5662 12.7133 24.3982 14.9733 22.7972 17.2241L22.7971 17.2242C19.9318 21.2533 16.546 24.0376 14.0004 24.9464C11.4549 24.0376 8.06905 21.2533 5.2038 17.2242L5.20374 17.2241C3.6027 14.9733 2.43396 12.7125 1.74047 10.7044C1.03801 8.67035 0.858634 6.99943 1.10404 5.87955L1.11246 5.84113L1.11784 5.80217C1.48543 3.13803 3.87557 1 7.03519 1C10.194 1 12.6936 3.23968 12.9742 5.97377L13.0663 6.87171H13.9689H14.0348H14.9367L15.0295 5.97463C15.3119 3.24553 17.8781 1 20.9686 1Z" stroke="#00A689" stroke-width="2"/>
           </svg>
-          <svg v-else @click="changeLike" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg v-else width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M39.8236 9.84452C39.1935 5.41846 35.0203 2 29.9551 2C24.8899 2 20.5366 5.56938 20.0497 10.1301H19.9556C19.4728 5.56938 15.2218 2 10.0503 2C4.87871 2 0.811827 5.41846 0.181746 9.84452C-0.681545 13.6628 1.56056 20.2345 6.2698 26.6513C10.6067 32.5622 15.8928 36.7762 20.0006 38C24.1084 36.7762 29.3946 32.5622 33.7315 26.6513C38.4407 20.2345 40.6787 13.6668 39.8195 9.84452H39.8236Z" fill="#00A689"/>
           </svg>
         </div>
@@ -101,6 +101,11 @@ export default {
       prMobileSlider: null,
     }
   },
+  computed: {
+    authUser() {
+      return this.$store.state.profileAuth
+    },
+  },
   methods: {
     swiperInit(e) {
       this.prMobileSlider = e
@@ -112,8 +117,23 @@ export default {
       this.activeSlide = i - 1
       this.prMobileSlider.slideTo(i - 1)
     },
-    changeLike(){
-      this.$store.commit('changeProductLike', !this.productInfo.data[0].like)
+    async changeLike(){
+      if (!this.authUser) {
+        this.$toast.error('Сначало авторизуйтесь!').goAway(2000)
+        return
+      }
+      try {
+        const headers = new Headers()
+        headers.append('Authorization', this.$cookies.get('auth.TheVaper._token.laravelJWT'))
+        const res = await this.$services.ProductServices.setProductFavorite(this.productInfo.data[0].moysklad_id, headers)
+
+        this.$store.commit('changeProductLike', !this.productInfo.data[0].like)
+      }
+
+      catch (e) {
+        this.$toast.error('Ошибка добавления в избранные!')
+        console.error('Favorites ', e)
+      }
     },
   }
 }

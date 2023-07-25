@@ -228,11 +228,12 @@ export default {
     try {
       const url = `/api/product/${route.params.id}`
       const res = await $services.ProductServices.getProductDetail(url)
-      res.data[0].like = false
+
+      res.data[0].like = res.data[0].like ?? false
       res.quantity = 0
       store.commit('setGeneral', {payload: res, path: 'productDetail'})
     } catch (e) {
-      $toast.error('Ошибка загрузки товара!')
+      $toast.error('Ошибка загрузки товара!').goAway(2000)
       console.error('Product ', e)
     }
 
@@ -241,7 +242,7 @@ export default {
       const res = await $services.ProductServices.getProductDetail(url)
       store.commit('setGeneral', {payload: res, path: 'productReviews'})
     } catch (e) {
-      $toast.error('Ошибка загрузки Отзывов!')
+      $toast.error('Ошибка загрузки Отзывов!').goAway(2000)
       console.error('Product ', e)
     }
   },
@@ -559,6 +560,9 @@ export default {
     }
   },
   computed: {
+    authUser() {
+      return this.$store.state.profileAuth
+    },
     pageId() {
       return this.$route.params.id
     },
@@ -611,8 +615,24 @@ export default {
       }
       this.modificationsChar = char
     },
-    changeLike(){
-      this.$store.commit('changeProductLike', !this.productDetail.data[0].like)
+    async changeLike(){
+      if (!this.authUser) {
+        this.$toast.error('Сначало авторизуйтесь!').goAway(2000)
+        return
+      }
+      try {
+        const headers = new Headers()
+        headers.append('Authorization', this.$cookies.get('auth.TheVaper._token.laravelJWT'))
+        const res = await this.$services.ProductServices.setProductFavorite(this.productDetail.data[0].moysklad_id, headers)
+        console.log(res)
+
+        this.$store.commit('changeProductLike', !this.productDetail.data[0].like)
+      }
+
+      catch (e) {
+        this.$toast.error('Ошибка добавления в избранные!')
+        console.error('Favorites ', e)
+      }
     },
   }
 }

@@ -2,8 +2,8 @@ export default ($axios) => ({
   getProductDetail: async (url) => {
     return (await $axios.get(url)).data
   },
-  setProductFavorite: async (body, headers) => {
-    const url = '/api/favorites'
-    return await $axios.post(url, body, headers)
+  setProductFavorite: async (product_id, headers) => {
+    const url = `/api/favorites/${product_id}`
+    return await $axios.$post(url, {}, headers)
   }
 })
