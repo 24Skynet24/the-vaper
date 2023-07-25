@@ -131,7 +131,7 @@ export default {
       }
 
       catch (e) {
-        this.$toast.error('Ошибка добавления в избранные!')
+        this.$toast.error('Ошибка добавления в избранные!').goAway(2000)
         console.error('Favorites ', e)
       }
     },
