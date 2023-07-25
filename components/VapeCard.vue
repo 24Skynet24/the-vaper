@@ -133,15 +133,34 @@ export default {
       likeState: this.cardInfo.like
     }
   },
+  computed: {
+    authUser() {
+      return this.$store.state.profileAuth
+    },
+  },
   methods: {
     ellipsisCheck(text) {
       if (!text) return false
       return text.length === 55
     },
-    changeState() {
-      this.likeState = !this.likeState
-      this.cardInfo.like = this.likeState
-    }
+    async changeState() {
+      if (!this.authUser) {
+        this.$toast.error('Сначало авторизуйтесь!').goAway(2000)
+        return
+      }
+
+      try {
+        const headers = new Headers()
+        headers.append('Authorization', this.$cookies.get('auth.TheVaper._token.laravelJWT'))
+        const res = await this.$services.ProductServices.setProductFavorite(this.cardInfo.moysklad_id, headers)
+        this.likeState = !this.likeState
+      }
+
+      catch (e) {
+        this.$toast.error('Ошибка добавления в избранные!').goAway(2000)
+        console.error('Favorites ', e)
+      }
+    },
   }
 }
 </script>
