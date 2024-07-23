@@ -48,8 +48,8 @@ import CustomSection from "../../components/CustomSection";
 export default {
   name: "index",
   components: {CustomSection},
-  middleware: ['auth', 'windowWidth'],
-  mixins: [profile],
+  middleware: ['windowWidth'],
+  // mixins: [profile],
   data() {
     return {
       sectionInfo: {

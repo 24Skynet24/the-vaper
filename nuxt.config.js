@@ -58,7 +58,7 @@ export default {
 
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.BASE_URL || 'http://194.67.86.108:89',
+    baseURL: process.env.BASE_URL || 'https://the-vaper-back.itwonder.ru',
     headers: {
       common: {
         'Accept': 'application/json'
@@ -73,6 +73,7 @@ export default {
     '@/assets/styles/subclasses.scss',
     '@/assets/styles/hoopers.scss',
     '@/assets/styles/swipers.scss',
+    '@/assets/styles/toastStyles.scss',
     'hooper/dist/hooper.css',
     'vue2-datepicker/index.css',
     'swiper/swiper-bundle.css',
@@ -91,6 +92,7 @@ export default {
     { src: '@/plugins/multiRangeSlider.js', mode: 'client' },
     { src: '@/plugins/datepicker.js', mode: 'client' },
     { src: '@/plugins/swiperSlider.js', mode: 'client' },
+    { src: '@/plugins/clickOutside.js', mode: 'client' },
     '@/plugins/services.js'
   ],
 
@@ -110,6 +112,7 @@ export default {
     'cookie-universal-nuxt',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/auth-next',
+    '@nuxtjs/toast',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -123,4 +126,17 @@ export default {
       }
     }
   },
+
+  toast: {
+    position: 'top-right',
+    register: [ // Register custom toasts
+      {
+        name: 'my-error',
+        message: 'Oops...Something went wrong',
+        options: {
+          type: 'error'
+        }
+      }
+    ]
+  }
 }

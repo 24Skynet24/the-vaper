@@ -12,23 +12,38 @@
             <article class="block margins product-info-main">
               <h1>{{ product.title }}</h1>
               <div class="flex-between">
-                <h3 class="price">{{ product.price.price }} <b>₽</b></h3>
-                <stars-vaper :rating-stars="product.rating.star" :rating-reviews="product.rating.reviews" :fixed-two="true"/>
+                <h3 class="price">
+                  {{ product.price.price }}
+                  <svg class="rub-very-bold" width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.80872 17V17.15H2.95872H4.98499H5.13499V17V14.1024H8.69981H8.84981V13.9524V12.4958V12.3458H8.69981H5.13499V10.6514H6.15572H6.30572H6.87617C8.22526 10.6514 9.36499 10.4554 10.2897 10.0567C11.228 9.65856 11.9438 9.08815 12.4279 8.34216L12.4287 8.34097C12.9117 7.58102 13.15 6.67806 13.15 5.63866C13.15 4.09568 12.6572 2.89861 11.655 2.0723C10.6704 1.24812 9.17284 0.85 7.19137 0.85H2.95872H2.80872V1V8.64832H1H0.85V8.79832V10.5014V10.6514H1H2.80872V12.3458H1H0.85V12.4958V13.9524V14.1024H1H2.80872V17ZM5.13499 8.64832V2.85308H7.01126C8.33409 2.85308 9.27673 3.09818 9.86819 3.56074C10.4527 4.01786 10.7562 4.72254 10.7562 5.70588C10.7562 6.4618 10.5882 7.03819 10.2695 7.45188C9.9469 7.87075 9.48048 8.17642 8.85922 8.36336L8.85828 8.36365C8.24653 8.55212 7.48944 8.64832 6.58349 8.64832H6.30572H6.15572H5.13499Z" fill="#0B0B0B" stroke="#0B0B0B" stroke-width="0.3"/>
+                  </svg>
+                </h3>
+                <stars-vaper :rating-stars="+product.rating.reviews" :rating-reviews="+product.rating.reviews" :fixed-two="false"/>
               </div>
             </article>
             <div class="margins product-info-container">
-              <button class="block flex-center color-block" :class="{'green-border' : !colorState && Object.keys(activeColor).length}">
-                <span @click="colorsShow">{{ activeColor.title ?? 'Выбрать цвет' }}</span>
+              <button
+                class="block flex-center color-block"
+                :class="[{'green-border' : !colorState && Object.keys(activeModifications).length}]"
+                v-if="Object.keys(product.specifications)[0].length"
+              >
+                <span @click="colorsShow" class="ellipsis">
+                  {{ modificationsChar ?? 'Выбрать вариант' }}
+                </span>
 
                 <transition name="drop">
                   <div class="colors-list" v-if="colorState === true" @mouseleave="colorState = false">
-                    <span class="title">{{ activeColor.title ?? 'Выбрать цвет' }}</span>
-                    <ul class="flex-wrap">
-                      <li v-for="(item, id) in product.colors" :key="`product_color_${id}`" @click="setColor(item)">
-                        <div></div>
-                        <span>{{ item.title }}</span>
-                      </li>
-                    </ul>
+                    <div class="flex-column" v-for="(modification, id) in product.modification">
+                      <span class="title">{{ id }}</span>
+                      <ul class="flex-wrap">
+                        <li v-for="(item, key) in modification" :key="`product_color_${key}`" @click="setModification(id, item, $event)">
+                          <div></div>
+                          <span :class="[{'green-color' : activeModifications[id] === item}]">
+                            {{ item }}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
                     <svg @click="colorState = false" width="30" height="10" viewBox="0 0 30 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clip-path="url(#clip0_1363_5909)">
                         <path d="M15.2454 0.0502908C15.11 -0.0167636 14.8902 -0.0167636 14.7548 0.0502908L12.083 1.37286L0.817398 6.94967C0.294102 7.20881 0 7.5602 0 7.92659L0 9.82783C0 9.98083 0.373783 10.0575 0.592233 9.94934L14.7548 2.93845C14.8902 2.87139 15.11 2.87139 15.2454 2.93845L29.4078 9.94934C29.6264 10.0575 30 9.98083 30 9.82783V7.92659C30 7.5602 29.7059 7.20881 29.1826 6.94967L17.9172 1.37286L15.2454 0.0502908Z" fill="#8B9390"/>
@@ -118,7 +133,7 @@
                   <span @click="setQuantity(true)">+</span>
                 </div>
               </button>
-              <button class="block product-info-btn flex-center" @click="product.like = !product.like">
+              <button class="block product-info-btn flex-center" @click="changeLike"  >
                 <svg v-if="!product.like"  width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M20.9686 1C23.7307 1 25.9875 2.71137 26.699 4.97127L26.8966 5.87837C27.1411 7.00057 26.9613 8.67219 26.2593 10.7056C25.5662 12.7133 24.3982 14.9733 22.7972 17.2241L22.7971 17.2242C19.9318 21.2533 16.546 24.0376 14.0004 24.9464C11.4549 24.0376 8.06905 21.2533 5.2038 17.2242L5.20374 17.2241C3.6027 14.9733 2.43396 12.7125 1.74047 10.7044C1.03801 8.67035 0.858634 6.99943 1.10404 5.87955L1.11246 5.84113L1.11784 5.80217C1.48543 3.13803 3.87557 1 7.03519 1C10.194 1 12.6936 3.23968 12.9742 5.97377L13.0663 6.87171H13.9689H14.0348H14.9367L15.0295 5.97463C15.3119 3.24553 17.8781 1 20.9686 1Z" stroke="#00A689" stroke-width="2"/>
                 </svg>
@@ -156,15 +171,21 @@
         <ul class="flex-align-center">
           <li
             v-for="item in tabs" :key="`tab_product_${item.id}`"
-            :class="[{'product-tabs-active' : item.id === activeTab}]"
-            @click="activeTab = item.id"
+            :class="[
+              {'product-tabs-active' : item.id === activeTab},
+              {'product-tabs-disable' : item.id === 4 && !product.reviews},
+              {'product-tabs-disable' : item.id === 3 && !product.specifications},
+              {'product-tabs-disable' : item.id === 2 && !product.equipment},
+              {'product-tabs-disable' : item.id === 1 && !product.description}
+              ]"
+            @click="changeTab(item.id)"
           >
             {{ item.name }}
           </li>
         </ul>
 
         <div class="product-tabs-container">
-          <product-description :description-text="product.description" v-if="activeTab === 1"/>
+          <product-description :description-text="product.description[0].text" v-if="activeTab === 1"/>
           <product-specifications :product-specifications="product.specifications"  v-if="activeTab === 2"/>
           <product-equipment :product-equipment="product.equipment" v-if="activeTab === 3"/>
           <product-reviews-container :product-reviews="product.reviews" v-if="activeTab === 4"/>
@@ -203,6 +224,28 @@ export default {
     RecommendationProducts, FeedbackCmp, StarsVaper, ProductSlider, CustomSection, BreadCrumbs
   },
   mixins: [clientData],
+  async asyncData({ store, $services, route, $toast }){
+   /* try {
+      const url = `/api/product/${route.params.id}`
+      const res = await $services.ProductServices.getProductDetail(url)
+
+      res.data[0].like = res.data[0].like ?? false
+      res.quantity = 0
+      store.commit('setGeneral', {payload: res, path: 'productDetail'})
+    } catch (e) {
+      $toast.error('Ошибка загрузки товара!').goAway(2000)
+      console.error('Product ', e)
+    }
+
+    try {
+      const url = `/api/product/review/${route.params.id}?limit=10&offset=0`
+      const res = await $services.ProductServices.getProductDetail(url)
+      store.commit('setGeneral', {payload: res, path: 'productReviews'})
+    } catch (e) {
+      $toast.error('Ошибка загрузки Отзывов!').goAway(2000)
+      console.error('Product ', e)
+    }*/
+  },
   data(){
     return {
       tabs: [
@@ -308,7 +351,8 @@ export default {
       mapState: false,
       buttonsMobileState: false,
 
-      activeColor: {},
+      activeModifications: {},
+      modificationsChar: 'Выбрать вариант',
 
       product: {
         title: 'GEEKVAPE B100 BOOST PRO MAX 21700 KIT 100W',
@@ -439,7 +483,7 @@ export default {
             title: 'Батарейный блок',
           },
         ],
-        specifications: {
+        specifications: [{
           volume: '6 мл',
           serviced: 'Имеется RBA база-испаритель',
           battery_capacity: '1000 мАч',
@@ -453,7 +497,7 @@ export default {
           charger_connector: 'USB Type C',
           weight: '370 г',
           country: 'Китай',
-        },
+        }],
         reviews: [
           {
             rating: 3,
@@ -515,28 +559,77 @@ export default {
       },
     }
   },
+  computed: {
+    authUser() {
+      return this.$store.state.profileAuth
+    },
+    pageId() {
+      return this.$route.params.id
+    },
+    productDetail() {
+      return this.$store.state.productDetail
+    },
+    productReviews() {
+      return this.$store.state.productReviews
+    },
+  },
+  mounted() {
+    // if (!this.productDetail.data[0].description) this.activeTab = 0
+  },
   methods: {
+    changeTab(tabId){
+      this.activeTab = tabId
+    },
     quantityShow(){
-      if (!this.quantityState && !this.product.quantity) {
+      if (!this.quantityState && !this.productDetail.quantity) {
         this.quantityState = true
-        ++this.product.quantity
+        this.$store.commit('changeProductQuantity', this.productDetail.quantity + 1)
       }
-      else if (this.quantityState && !this.product.quantity) this.quantityState = false
+      else if (this.quantityState && !this.productDetail.quantity) this.quantityState = false
     },
     colorsShow(){
+      if (!Object.keys(this.productDetail.modification).length) return
       if (!this.colorState) this.colorState = true
     },
     setQuantity(state = false){
-      if (state) ++this.product.quantity
+      if (state) this.$store.commit('changeProductQuantity', this.productDetail.quantity + 1)
       else {
-        --this.product.quantity
-        if (this.product.quantity < 0) this.quantityState = false
+        this.$store.commit('changeProductQuantity', this.productDetail.quantity - 1)
+        if (this.productDetail.quantity < 0) this.quantityState = false
       }
     },
-    setColor(item) {
-      this.colorState = false
-      this.activeColor = item
-    }
+    setModification(modification, item, $event) {
+      const parent = $event.target.parentNode.parentNode
+      Array.from(parent.children).map(el => {el.children[1].classList.remove('green-color')})
+      $event.target.classList.toggle('green-color')
+      this.activeModifications[modification] = item
+      if (Object.keys(this.productDetail.modification).length === 1) this.colorState = false
+
+      let char = ''
+      for (let i in this.activeModifications) {
+        char += `${i}: ${this.activeModifications[i]}; `
+      }
+      this.modificationsChar = char
+    },
+    async changeLike(){
+      if (!this.authUser) {
+        this.$toast.error('Сначало авторизуйтесь!').goAway(2000)
+        return
+      }
+      /*try {
+        const headers = new Headers()
+        headers.append('Authorization', this.$cookies.get('auth.TheVaper._token.laravelJWT'))
+        const res = await this.$services.ProductServices.setProductFavorite(this.productDetail.data[0].moysklad_id, headers)
+        console.log(res)
+
+        this.$store.commit('changeProductLike', !this.productDetail.data[0].like)
+      }
+
+      catch (e) {
+        this.$toast.error('Ошибка добавления в избранные!').goAway(2000)
+        console.error('Favorites ', e)
+      }*/
+    },
   }
 }
 </script>
@@ -769,25 +862,33 @@ button {
     color: #FFFFFF;
   }
 
+  & &-disable {
+    background: rgba(255, 255, 255, .4);
+    cursor: default;
+
+    &:hover {
+      color: rgba(138, 146, 143, 1);
+      background: rgba(255, 255, 255, .4);
+    }
+  }
+
   &-container {
     width: 100%;
   }
 }
 
 .color-block {
-  width: rem(211);
+  flex: 1;
   position: relative;
   padding: 0;
   border: 1px solid #FFFFFF;
   transition: .25s;
+  max-width: 42%;
   justify-content: flex-start !important;
 
   span {
-    padding: 0;
+    padding: rem(15) rem(40);
     width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
     height: rem(60);
     text-align: left;
   }
@@ -798,10 +899,10 @@ button {
     top: 0;
     z-index: 4;
     background: #FFFFFF;
-    width: rem(460);
+    width: 220%;
     box-shadow: 4px 4px 8px 4px rgba(69, 99, 86, 0.3);
     border-radius: 8px;
-    padding: rem(15) 0 rem(17) rem(40);
+    padding: rem(15) 0 rem(17) rem(20);
     cursor: default;
 
     span {
@@ -952,6 +1053,20 @@ button {
 
 .green-border {
   border-color: $green;
+}
+
+.green-color {
+  color: $green !important;
+}
+
+.active-color span{
+  text-align: left;
+  justify-content: flex-start !important;
+}
+
+.color-disable {
+  cursor: default;
+  background: rgba(255, 255, 255, .3);
 }
 
 </style>

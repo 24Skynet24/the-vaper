@@ -3,7 +3,7 @@
     <ul class="flex-column">
       <li v-for="(item, id) in productEquipment" :key="`productEquipment_${id}`" class="flex-align-center">
         <div></div>
-        <span>{{ item.title }}</span>
+        <span>{{ item.label + " " + item.value }}</span>
       </li>
     </ul>
   </article>

@@ -1,0 +1,36 @@
+.toasted-container {
+  @media screen and (max-width: 768px){
+    min-width: auto !important;
+  }
+
+  * {
+    font-family: 'Helvetica', sans-serif !important;
+    font-size: rem(16) !important;
+    line-height: 140% !important;
+    font-weight: 400 !important;
+
+    @media (min-width: 564px) and (max-width: 768px) {
+      font-size: rem(10) !important;
+      font-weight: 400!important;
+    }
+
+    @media screen and (max-width: 563px) {
+      font-size: rem(12) !important;
+    }
+  }
+}
+
+.toasted-container.top-right {
+  @media only screen and (max-width: 768px) {
+    top: 3% !important;
+    right: 5% !important;
+  }
+}
+
+.toasted.success {
+  background: $green !important;
+}
+
+.toasted.error {
+  background: rgba(214, 45, 48, 1) !important;
+}

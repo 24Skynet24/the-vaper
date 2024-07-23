@@ -5,75 +5,12 @@
         Основные характеристики
       </b>
     </h4>
-    <div class="flex">
-      <ul class="flex-column">
-        <li class="flex-align-center flex-between">
-          <span class="title">Объем бака атомайзера</span>
+    <div class="flex-wrap">
+      <ul class="flex-wrap">
+        <li class="flex-align-center flex-between" v-for="(item, id) in productSpecifications" :key="`сharacteristic_${id}`">
+          <span class="title">{{ item.label }}</span>
           <div class="line"></div>
-          <span class="text">{{ productSpecifications['volume'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Обслуживаемый</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['serviced'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Ёмкость аккумулятора</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['battery_capacity'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Тип затяжки</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['puff_type'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Тип аккумулятора</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['battery_type'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Диапазон сопротивлений</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['resistance_range'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Ток заряда</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['charge_current'] || '-' }}</span>
-        </li>
-      </ul>
-
-      <ul class="flex-column">
-        <li class="flex-align-center flex-between">
-          <span class="title">Формат аккумулятора</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['battery_format'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Количество аккумуляторов</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['number_of_batteries'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Тип испарителя</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['evaporator_type'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Разъем зарядного устройства</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['charger_connector'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Вес</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['weight'] || '-' }}</span>
-        </li>
-        <li class="flex-align-center flex-between">
-          <span class="title">Страна</span>
-          <div class="line"></div>
-          <span class="text">{{ productSpecifications['country'] || '-' }}</span>
+          <span class="text">{{ item.value || '-' }}</span>
         </li>
       </ul>
     </div>
@@ -84,7 +21,7 @@
 export default {
   name: "ProductSpecifications",
   props: {
-    productSpecifications: { type: Object, required: true },
+    productSpecifications: { type: Array, required: true },
   },
   data(){
     return {
@@ -137,7 +74,6 @@ h4 {
 }
 
 ul {
-  width: 50%;
   gap: rem(20);
 
   @media screen and (max-width: 768px) {

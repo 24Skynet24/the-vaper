@@ -52,21 +52,26 @@
       <div class="additional-inner">
         <div class="price">
           <div class="discount" v-if="cardInfo.price.discount">
-            {{ cardInfo.price.discount }} ₽
+            {{ cardInfo.price.discount }}
+            <svg class="rub-very-small" fill="none" height="11" viewBox="0 0 9 11" width="9" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.46904 11V0H4.64353C6.1182 0 7.21013 0.272176 7.91932 0.816527C8.63977 1.36088 9 2.15173 9 3.18908C9 3.88749 8.82552 4.48833 8.47655 4.9916C8.12758 5.48459 7.60976 5.86461 6.92308 6.13165C6.24765 6.39869 5.40901 6.53221 4.40713 6.53221H2.98874V11H1.46904ZM0 8.90476V7.90336H5.77486V8.90476H0ZM0 6.53221V5.36134H3.86679V6.53221H0ZM4.18762 5.36134C4.8743 5.36134 5.45403 5.29458 5.92683 5.16106C6.41088 5.02754 6.78236 4.80672 7.04128 4.4986C7.30019 4.19048 7.42964 3.76937 7.42964 3.23529C7.42964 2.53688 7.19325 2.01821 6.72045 1.67927C6.24765 1.34034 5.51032 1.17087 4.50844 1.17087H2.98874V5.36134H4.18762Z" fill="#0B0B0B"/>
+            </svg>
           </div>
-          <span><b class="green">{{ cardInfo.price.price }} </b>₽</span>
+          <span>
+            <b class="green">{{ cardInfo.price.price }} </b>
+            <svg class="rub" fill="none" height="11" viewBox="0 0 9 11" width="9" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.46904 11V0H4.64353C6.1182 0 7.21013 0.272176 7.91932 0.816527C8.63977 1.36088 9 2.15173 9 3.18908C9 3.88749 8.82552 4.48833 8.47655 4.9916C8.12758 5.48459 7.60976 5.86461 6.92308 6.13165C6.24765 6.39869 5.40901 6.53221 4.40713 6.53221H2.98874V11H1.46904ZM0 8.90476V7.90336H5.77486V8.90476H0ZM0 6.53221V5.36134H3.86679V6.53221H0ZM4.18762 5.36134C4.8743 5.36134 5.45403 5.29458 5.92683 5.16106C6.41088 5.02754 6.78236 4.80672 7.04128 4.4986C7.30019 4.19048 7.42964 3.76937 7.42964 3.23529C7.42964 2.53688 7.19325 2.01821 6.72045 1.67927C6.24765 1.34034 5.51032 1.17087 4.50844 1.17087H2.98874V5.36134H4.18762Z" fill="#0B0B0B"/>
+            </svg>
+          </span>
         </div>
         <div class="icons">
-          <div class="like">
-            <svg v-if="cardInfo.like" @click="cardInfo.like = false"
-                 width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div class="like" @click="changeLike">
+            <svg v-if="productLike" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M39.8236 9.84452C39.1935 5.41846 35.0203 2 29.9551 2C24.8899 2 20.5366 5.56938 20.0497 10.1301H19.9556C19.4728 5.56938 15.2218 2 10.0503 2C4.87871 2 0.811827 5.41846 0.181746 9.84452C-0.681545 13.6628 1.56056 20.2345 6.2698 26.6513C10.6067 32.5622 15.8928 36.7762 20.0006 38C24.1084 36.7762 29.3946 32.5622 33.7315 26.6513C38.4407 20.2345 40.6787 13.6668 39.8195 9.84452H39.8236Z" fill="#00A689"/>
             </svg>
-            <svg v-else @click="cardInfo.like = true"
-                 width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg v-else width="28" height="26" viewBox="0 0 28 26" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M20.9686 1C23.7307 1 25.9875 2.71137 26.699 4.97127L26.8966 5.87837C27.1411 7.00057 26.9613 8.67219 26.2593 10.7056C25.5662 12.7133 24.3982 14.9733 22.7972 17.2241L22.7971 17.2242C19.9318 21.2533 16.546 24.0376 14.0004 24.9464C11.4549 24.0376 8.06905 21.2533 5.2038 17.2242L5.20374 17.2241C3.6027 14.9733 2.43396 12.7125 1.74047 10.7044C1.03801 8.67035 0.858634 6.99943 1.10404 5.87955L1.11246 5.84113L1.11784 5.80217C1.48543 3.13803 3.87557 1 7.03519 1C10.194 1 12.6936 3.23968 12.9742 5.97377L13.0663 6.87171H13.9689H14.0348H14.9367L15.0295 5.97463C15.3119 3.24553 17.8781 1 20.9686 1Z" stroke="#00A689" stroke-width="2"/>
             </svg>
-
           </div>
           <svg class="cart" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.934082 23.2928L6.10078 39.1321C6.26963 39.6485 6.75468 40 7.30113 40H32.7109C33.2574 40 33.7424 39.6485 33.9113 39.1321L39.078 23.2928H0.934082ZM19.5256 25.7009H23.0284L19.2217 34.27L17.6253 30.2055L19.5256 25.7009ZM14.0335 37.5888V27.6904L17.9047 37.5888H14.0335ZM25.9755 37.5888H23.9064L25.9755 33.0109V37.5888ZM20.6031 37.5888H18.7857L14.0335 25.7009H15.0926L19.1818 36.0852L23.8327 25.7009H25.9786L20.6062 37.5888H20.6031Z" fill="#0B0B0B"/>
@@ -86,6 +91,37 @@ export default {
   props: {
     cardInfo: {type: Object, required: true,},
   },
+  data(){
+    return {
+      productLike: this.cardInfo.like
+    }
+  },
+  computed: {
+    authUser() {
+      return this.$store.state.profileAuth
+    },
+  },
+  methods: {
+    async changeLike(){
+      if (!this.authUser) {
+        this.$toast.error('Сначало авторизуйтесь!').goAway(2000)
+        return
+      }
+
+      try {
+        const headers = new Headers()
+        headers.append('Authorization', this.$cookies.get('auth.TheVaper._token.laravelJWT'))
+        const res = await this.$services.ProductServices.setProductFavorite(this.cardInfo.moysklad_id, headers)
+        this.productLike = !this.productLike
+        this.cardInfo.like = this.productLike
+      }
+
+      catch (e) {
+        this.$toast.error('Ошибка добавления в избранные!').goAway(2000)
+        console.error('Favorites ', e)
+      }
+    }
+  }
 }
 </script>
 

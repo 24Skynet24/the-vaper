@@ -17,11 +17,16 @@
         @click="changeMenu(item, id)"
         v-show="childrenShow === false"
       >
-        <div class="flex-align-center">
+        <nuxt-link :to="item.url" class="flex-align-center catalog-link" v-if="!item.children.length" @click.native="$emit('closeCatalog')">
+          <div class="icon" v-html="item.icon"></div>
+          <span>{{ item.title }}</span>
+        </nuxt-link>
+
+        <div class="flex-align-center" v-if="item.children.length">
           <div class="icon" v-html="item.icon"></div>
           <span>{{ item.title }}</span>
         </div>
-        <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <svg v-if="item.children.length" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
           <path d="M9 18L15 12L9 6" stroke="#8A928F" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         </svg>
       </div>
@@ -39,13 +44,29 @@
           :key="`childrenCategory_${id}`"
           class="catalog-subitem"
         >
-          <div class="title" :class="{'active-title' : item.active}" @click="$store.commit('mobileCatalog/setMobileCatalogActive', {id: categoryId, parentId: id, active: !item.active})">
-            <span>{{ item.title }}</span>
+          <div
+            v-if="item.children.length"
+            class="title"
+            :class="{'active-title' : item.active}"
+            @click="openChildren(item, id)"
+          >
+            <nuxt-link :to="item.url" @click.native="$emit('closeCatalog')">
+              {{ item.title }}
+            </nuxt-link>
             <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 18L15 12L9 6" stroke="#8A928F" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
             </svg>
           </div>
-          <ul v-if="item.children.length && item.active">
+          <nuxt-link
+            v-else
+            :to="item.url"
+            class="title"
+            @click.native="$emit('closeCatalog')"
+          >
+            <span>{{ item.title }}</span>
+          </nuxt-link>
+
+          <ul v-show="item.active">
             <li v-for="(el, i) in item.children" :key="`child_childrenCategory_${i}`">
               <nuxt-link :to="el.url" @click.native="$emit('closeCatalog')">
                 {{ el.title }}
@@ -67,20 +88,33 @@ export default {
   data() {
     return {
       childrenCategory: {},
-      categoryId: null,
       childrenShow: false,
+
+      mainId: null,
+      childrenId: null,
     }
   },
   methods: {
     changeMenu(item, id){
+      if (!item.children.length) return
       this.childrenCategory = item
-      this.categoryId = id
+      this.mainId = id
       this.childrenShow = true
     },
     backMainMenu(){
       this.childrenCategory = {}
-      this.categoryId = null
       this.childrenShow = false
+      this.mainId = null
+      this.childrenId = null
+    },
+    openChildren(item, id) {
+      this.childrenId = id
+      this.$store.commit('setCategoriesParam', {
+        mainId: this.mainId,
+        childrenId: this.childrenId,
+        param: 'active',
+        value: !item.active
+      })
     },
   },
 }
@@ -97,7 +131,7 @@ article {
   border-radius: 10px;
   z-index: 5;
   padding: rem(10) 0;
-  max-height: rem(470);
+  max-height: rem(410);
   overflow-y: auto;
 }
 
@@ -138,6 +172,10 @@ span, a {
     width: rem(30);
     height: rem(30);
     margin-right: rem(10);
+  }
+
+  a.catalog-link {
+    width: 100%;
   }
 }
 

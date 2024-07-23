@@ -8,7 +8,7 @@
           <client-only>
             <div class="category-swiper parent" v-if="windowWidth > 768">
               <swiper-wrap :slides-per-view="4" :space-between="pxToVw(100)" @swiper="swiperInit($event)" @slideChange="slideChange($event)">
-                <swiper-slide v-for="(item, id) in cardInfo" :key="`index_category_card_${id}`">
+                <swiper-slide v-for="(item, id) in this.normalCategories(this.getCategories)" :key="`index_category_card_${id}`">
                   <category-card :card-info="item"/>
                 </swiper-slide>
               </swiper-wrap>
@@ -23,7 +23,7 @@
                   </clipPath>
                 </defs>
               </svg>
-              <svg v-show="activeSlide !== cardInfo.length - 4" @click="setSlide()" class="category-swiper-next" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg v-show="activeSlide !== this.normalCategories(this.getCategories).length - 4" @click="setSlide()" class="category-swiper-next" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_1720_7572)">
                   <path d="M18.5313 12.1965C18.6239 12.0882 18.6239 11.9123 18.5313 11.804L16.7059 9.66642L9.01011 0.654031C8.65243 0.235412 8.16758 -2.94335e-07 7.66225 -2.50158e-07L5.03817 -2.07536e-08C4.82718 -2.30756e-09 4.72143 0.299221 4.87055 0.473726L14.5458 11.804C14.6384 11.9123 14.6384 12.0882 14.5458 12.1965L4.87055 23.5263C4.72144 23.7013 4.82718 24 5.03818 24L7.66225 24C8.16807 24 8.65292 23.7646 9.0106 23.346L16.7064 14.3336L18.5318 12.196L18.5313 12.1965Z" fill="#00A689"/>
                 </g>
@@ -37,14 +37,17 @@
           </client-only>
 
           <div class="category-cards flex-column" v-if="windowWidth <= 768">
+            <!-- v-show don't working -->
             <nuxt-link
               class="flex-center"
               :to="item.url" exact no-prefetch
-              v-for="(item, id) in cardInfo" :key="`category_card_mob_${id}`"
+              v-for="(item, id) in this.normalCategories(this.getCategories)" :key="`category_card_mob_${id}`"
+              v-if="5 > +id"
             >
               {{ item.title }}
             </nuxt-link>
-            <nuxt-link class="flex-center btn" to="/" exact no-prefetch>
+            <!--  -->
+            <nuxt-link class="flex-center btn" to="/catalog" exact no-prefetch>
               посмотреть все
             </nuxt-link>
           </div>
@@ -148,6 +151,7 @@ import AgeVerification from "../components/Modals/AgeVerification";
 import CookiesModal from "../components/Modals/CookiesModal";
 import clientData from "../mixins/clientData";
 import MobileVaperSlider from "../components/MobileVaperSlider";
+import categoriesMixin from "../mixins/productsMixin";
 
 export default {
   name: "IndexPage",
@@ -157,41 +161,19 @@ export default {
     BannerCmp, CategoryCard,
     CustomSection, VapeCard, AgeVerification,
   },
-  mixins: [clientData],
+  mixins: [clientData, categoriesMixin],
+  async asyncData({ store, $services, $toast }) {
+   /* try {
+      const res = await $services.CategoriesServices.getCategories()
+      store.commit('setGeneral', {path: 'categories', payload: res})
+    } catch (e) {
+      $toast.error('Ошибка загрузки категорий!').goAway(2000)
+      console.error('Categories ', e)
+    }*/
+  },
   data() {
     return {
-      cardInfo: [
-        {
-          icon: require('@/assets/img/category/categories_icons.svg?raw'),
-          url: '/catalog',
-          title: 'одноразовые pod-системы'
-        },
-        {
-          icon: require('@/assets/img/category/categories_icons-1.svg?raw'),
-          url: '/catalog',
-          title: 'pod-системы'
-        },
-        {
-          icon: require('@/assets/img/category/categories_icons-2.svg?raw'),
-          url: '/catalog',
-          title: 'жидкость для POD-систем'
-        },
-        {
-          icon: require('@/assets/img/category/categories_icons-3.svg?raw'),
-          url: '/catalog',
-          title: 'расходники'
-        },
-        {
-          icon: require('@/assets/img/category/categories_icons-3.svg?raw'),
-          url: '/catalog',
-          title: 'расходники'
-        },
-        {
-          icon: require('@/assets/img/category/categories_icons-3.svg?raw'),
-          url: '/catalog',
-          title: 'расходники'
-        },
-      ],
+      categories: [],
       sectionsInfo: [
         {
           sectionInfo: {
@@ -403,6 +385,11 @@ export default {
       activeSlide: 0
     }
   },
+  computed: {
+    getCategories(){
+      return this.$store.getters.getCategories
+    },
+  },
   methods: {
     swiperInit(e) {
       this.swiperData = e
@@ -425,6 +412,11 @@ export default {
 
   .swiper-container {
     padding: rem(20) 0;
+
+    .swiper-slide {
+      margin-right: 0 !important;
+      width: 25.1% !important;
+    }
   }
 
   .category-swiper-next, .category-swiper-prev {

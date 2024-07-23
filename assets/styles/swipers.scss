@@ -11,9 +11,10 @@
     display: flex !important;
     flex-direction: column;
     gap: rem(20);
+    padding: rem(8) 0;
 
     article {
-      width: 98%;
+      width: 96%;
       min-width: auto;
       margin: 0 auto;
     }
