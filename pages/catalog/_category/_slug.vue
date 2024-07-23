@@ -258,14 +258,14 @@ export default {
   components: {MobileFilters, VaperLineCard, VapeCard, RecommendationProducts, CustomSection, BreadCrumbs},
   mixins: [clientData, productsMixin],
   async asyncData({ store, $services, route, $toast }){
-    try {
+    /*try {
       const url = `/api/products/${route.params.slug}?limit=20&offset=${route.query.page - 1}`
       const res = await $services.CategoriesServices.getProductsCategory(url)
       store.commit('setGeneral', {path: 'catalogProducts', payload: res})
     } catch (e) {
       $toast.error('Ошибка загрузки товаров!').goAway(2000)
       console.error('Products ', e)
-    }
+    }*/
   },
   data() {
     return {
@@ -441,7 +441,7 @@ export default {
       pagination: {
         limit: 0,
         offset: 0,
-        total: 0
+        total: 18
       },
       pagePagination: 1,
     }
@@ -451,7 +451,7 @@ export default {
       return this.$store.getters.getCatalogProducts
     },
     paginationTotal() {
-      return Math.ceil(this.pagination.total / 18)
+      // return Math.ceil(this.pagination.total / 18)
     },
   },
   mounted() {

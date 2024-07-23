@@ -163,13 +163,13 @@ export default {
   },
   mixins: [clientData, categoriesMixin],
   async asyncData({ store, $services, $toast }) {
-    try {
+   /* try {
       const res = await $services.CategoriesServices.getCategories()
       store.commit('setGeneral', {path: 'categories', payload: res})
     } catch (e) {
       $toast.error('Ошибка загрузки категорий!').goAway(2000)
       console.error('Categories ', e)
-    }
+    }*/
   },
   data() {
     return {

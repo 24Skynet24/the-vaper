@@ -42,7 +42,7 @@ import profile from "../../mixins/profile";
 export default {
   name: "favorites",
   components: {VapeCard, CustomSection, BreadCrumbs},
-  middleware: 'auth',
+  // middleware: 'auth',
   mixins: [profile],
   data(){
     return {

@@ -5,14 +5,14 @@
       <button
         class="color no-selection"
         :class="[{'green-border' : Object.keys(activeModifications).length && !colorState}]"
-        v-if="Object.keys(productInfo.modification).length"
+        v-if="Object.keys(productInfo.specifications).length"
       >
         <span class="ellipsis" @click="openModifications">
           {{ modificationsChar }}
         </span>
 
         <div class="list" v-if="colorState && buttonsState">
-          <div class="flex-column" v-for="(modification, id) in productInfo.modification" :key="`modification_mobile_${id}`">
+          <div class="flex-column" v-for="(modification, id) in productInfo.specifications" :key="`modification_mobile_${id}`">
             <div class="title">
               <span>{{ id }}</span>
             </div>

@@ -123,7 +123,7 @@ import profile from "../../mixins/profile";
 export default {
   name: "user",
   components: {TableCmp, LevelCmp, BreadCrumbs, CustomSection},
-  middleware: 'auth',
+  // middleware: 'auth',
   mixins: [profile],
   data(){
     return {
